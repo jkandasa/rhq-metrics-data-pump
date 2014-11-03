@@ -6,10 +6,22 @@ package org.rhqmetrics.qe.tools.data.pump.rest.client;
  */
 public class ServerConnection {
 
+	private String serverUrl = "http://localhost:8080";
+	private String rootUrl = "/rhq-metrics";
+
+	public ServerConnection(String serverUrl, String rootUrl){
+		if(serverUrl != null){
+			this.serverUrl=serverUrl;
+		}
+		if(rootUrl != null){
+			this.rootUrl=rootUrl;
+		}
+	}
+
 	public RestEasyJSONClient getRestClient(){
 		RestEasyJSONClient client = new RestEasyJSONClient();
-		client.setServerUrl("http://localhost:8080");
-		client.setRootUrl("/rhq-metrics");
+		client.setServerUrl(this.serverUrl);
+		client.setRootUrl(this.rootUrl);
 		return client;
 	}
 }

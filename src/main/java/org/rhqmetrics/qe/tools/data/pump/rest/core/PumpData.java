@@ -2,6 +2,7 @@ package org.rhqmetrics.qe.tools.data.pump.rest.core;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 import org.rhqmetrics.qe.tools.data.pump.rest.client.ServerConnection;
 import org.rhqmetrics.qe.tools.data.pump.rest.mapper.RHQMetrics;
@@ -12,15 +13,32 @@ import org.rhqmetrics.qe.tools.data.pump.rest.mapper.RHQMetrics;
  */
 public class PumpData {
 
-	public static void main(String[] args) throws Exception {
-		ServerConnection connection = new ServerConnection();
+	public static void sendData(DataPumpInput dataPumpInput) throws Exception {
+		ServerConnection connection=null;
+
+		if(dataPumpInput.getRhqServerAddress() != null){
+			if(dataPumpInput.getRhqServerAddress().startsWith("http")){
+				connection = new ServerConnection(dataPumpInput.getRhqServerAddress(), null);
+			}else{
+				connection = new ServerConnection("http://"+dataPumpInput.getRhqServerAddress(), null);
+			}
+		}
+
+		System.out.println("Server Address: "+connection.getRestClient().getServerUrl());
+		Random randomMetric = new Random();		
 		ArrayList<RHQMetrics> rhqMetrics = new ArrayList<RHQMetrics>();
 		long timestamp = new Date().getTime();
-		
-		for(int i=0; i<5000;i++){
-			rhqMetrics.add(new RHQMetrics("simple-test", timestamp-(5000*60000)+(i*60000), Math.random()*100.0));
+
+		long timeStartFrom = timestamp - (dataPumpInput.getDataCount()*dataPumpInput.getDataInterval()*1000);
+
+		for(int i=0; i<dataPumpInput.getDataCount();i++){
+			rhqMetrics.add(
+					new RHQMetrics(dataPumpInput.getMetricNameId(), 
+							timeStartFrom+(i*dataPumpInput.getDataInterval()*1000), 
+							(randomMetric.nextDouble()*(dataPumpInput.getMetricValueHighest()-dataPumpInput.getMetricValueLowest()))+dataPumpInput.getMetricValueLowest()));
+			//System.out.println("data: "+new Date(rhqMetrics.get(i).getTimestamp()));
 		}
-		System.out.println("data: "+rhqMetrics.get(0).getValue());
+
 		connection.getRestClient().post("/metrics", rhqMetrics.toArray());
 
 	}
