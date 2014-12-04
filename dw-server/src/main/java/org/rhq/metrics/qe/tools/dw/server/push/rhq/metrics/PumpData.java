@@ -24,9 +24,9 @@ public class PumpData {
 
 		if(simpleInput.getRhqServerAddress() != null){
 			if(simpleInput.getRhqServerAddress().startsWith("http")){
-				connection = new ServerConnection(simpleInput.getRhqServerAddress(), null);
+				connection = new ServerConnection(simpleInput.getRhqServerAddress());
 			}else{
-				connection = new ServerConnection("http://"+simpleInput.getRhqServerAddress()+":"+simpleInput.getRhqServerPort(), null);
+				connection = new ServerConnection("http://"+simpleInput.getRhqServerAddress()+":"+simpleInput.getRhqServerPort());
 			}
 		}
 		
@@ -41,11 +41,10 @@ public class PumpData {
 					new RHQMetrics(simpleInput.getMetricNameId(), 
 							timeStartFrom+(i*simpleInput.getMetricInterval()*1000), 
 							(randomMetric.nextDouble()*(simpleInput.getMetricValueHighest()-simpleInput.getMetricValueLowest()))+simpleInput.getMetricValueLowest()));
-			//System.out.println("data: "+new Date(rhqMetrics.get(i).getTimestamp()));
 		}
 
 		try {
-			connection.getRestClient().postRHQMetrics(RHQuri.PUSH_METRIC, rhqMetrics.toArray());
+			connection.getRestClient().post(RHQuri.PUSH_METRICS, rhqMetrics.toArray());
 		} catch (Exception ex) {
 			_logger.error("Error on sending data..", ex);
 		}

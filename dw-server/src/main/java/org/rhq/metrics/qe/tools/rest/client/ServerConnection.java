@@ -7,21 +7,20 @@ package org.rhq.metrics.qe.tools.rest.client;
 public class ServerConnection {
 
 	private String serverUrl = "http://localhost:8080";
-	private String rootUrl = "/rhq-metrics";
 
-	public ServerConnection(String serverUrl, String rootUrl){
+	public ServerConnection(String serverUrl){
 		if(serverUrl != null){
 			this.serverUrl=serverUrl;
 		}
-		if(rootUrl != null){
-			this.rootUrl=rootUrl;
-		}
 	}
-
-	public RestEasyJSONClient getRestClient(){
-		RestEasyJSONClient client = new RestEasyJSONClient();
+	
+	public ServerConnection(){
+		
+	}
+	
+	public JerseyJSONClient getRestClient(){
+		JerseyJSONClient client = new JerseyJSONClient();
 		client.setServerUrl(this.serverUrl);
-		client.setRootUrl(this.rootUrl);
 		return client;
 	}
 }
