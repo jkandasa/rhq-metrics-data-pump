@@ -1,18 +1,18 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>rhq-metrics-tools</groupId>
-	<artifactId>rhq-metrics-data-pump</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>RHQ Metrics data population tool</name>
-	<description>Data will be pumped to RHQ-metrics server with REST API</description>
-
-	<issueManagement>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>rhq-metrics-tools</groupId>
+  <artifactId>rhq-metrics-data-pump</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>RHQ Metrics data population tool</name>
+  <description>Data will be pumped to RHQ-metrics server with REST API</description>
+  
+  <issueManagement>
 		<system>GitHub</system>
 		<url>https://github.com/jkandasa/rhq-metrics-data-pump/issues</url>
 	</issueManagement>
-
+	
 	<properties>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>ISO-8859-1</project.reporting.outputEncoding>
@@ -27,8 +27,12 @@
 		<product.url>https://github.com/rhq-project/rhq-metrics</product.url>
 		<product.supportEmail>jkandasa@redhat.com</product.supportEmail>
 		<product.version>${project.version}</product.version>
+		
+		<!-- JAR file versions -->
+		 <dropwizard.version>0.7.0</dropwizard.version>
 	</properties>
-
+	
+	
 	<repositories>
 		<repository>
 			<id>java.net</id>
@@ -47,29 +51,11 @@
 			<url>https://clojars.org/repo</url>
 		</repository>
 	</repositories>
-
-	<dependencies>
-		<!-- External Dependencies -->
-
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-yaml-provider</artifactId>
-			<version>2.3.5.Final</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jackson-provider</artifactId>
-			<version>2.3.5.Final</version>
-		</dependency>
-
-		<dependency>
-			<groupId>args4j</groupId>
-			<artifactId>args4j</artifactId>
-			<version>2.0.29</version>
-		</dependency>
-
-
-	</dependencies>
-
+  
+  <modules>
+    <module>angularjs-webapp</module>
+    <module>dw-server</module>
+    <module>cli</module>
+  </modules>
+  
 </project>
