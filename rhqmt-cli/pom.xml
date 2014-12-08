@@ -1,0 +1,166 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>rhq-metrics-tools</groupId>
+		<artifactId>rhq-metrics-data-pump</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>rhqmt-cli</artifactId>
+
+	<properties>
+		<clamshellcli.version>0.5.2</clamshellcli.version>
+		<slf4j.version>1.7.7</slf4j.version>
+		<jline.version>1.0</jline.version>
+		<jcommander.version>1.35</jcommander.version>
+		<com.sun.jersey.version>1.18.1</com.sun.jersey.version>
+		<jackson.api.version>2.3.2</jackson.api.version>
+	</properties>
+
+
+	<repositories>
+		<repository>
+			<id>clamshellcli.repo</id>
+			<name>Clamshell-Cli Repository</name>
+			<url>http://s3.amazonaws.com/repo.clamshellcli.org/release/</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<!-- Internal dependencies -->
+		<dependency>
+			<groupId>rhq-metrics-tools</groupId>
+			<artifactId>rhqmt-server</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- External dependencies -->
+		<dependency>
+			<groupId>org.clamshellcli</groupId>
+			<artifactId>clamshell-api</artifactId>
+			<version>${clamshellcli.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.clamshellcli</groupId>
+			<artifactId>clamshell-impl-core</artifactId>
+			<version>${clamshellcli.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.clamshellcli</groupId>
+			<artifactId>clamshell-echo-controller</artifactId>
+			<version>${clamshellcli.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.clamshellcli</groupId>
+			<artifactId>clamshell-impl-default</artifactId>
+			<version>${clamshellcli.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.clamshellcli</groupId>
+			<artifactId>clamshell-impl-splashscreen</artifactId>
+			<version>${clamshellcli.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.clamshellcli</groupId>
+			<artifactId>clamshell-time-command</artifactId>
+			<version>${clamshellcli.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.clamshellcli</groupId>
+			<artifactId>clamshell-launcher</artifactId>
+			<version>${clamshellcli.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>jline</groupId>
+			<artifactId>jline</artifactId>
+			<version>${jline.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.beust</groupId>
+			<artifactId>jcommander</artifactId>
+			<version>${jcommander.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>${com.sun.jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-core</artifactId>
+			<version>${com.sun.jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+			<version>${com.sun.jersey.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-bundle</artifactId>
+			<version>${com.sun.jersey.version}</version>
+		</dependency>
+		<!-- <dependency> <groupId>com.sun.jersey</groupId> <artifactId>jersey-server</artifactId> 
+			<version>${com.sun.jersey.version}</version> </dependency> -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+			<version>${jackson.api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-base</artifactId>
+			<version>${jackson.api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.api.version}</version>
+		</dependency>
+
+	</dependencies>
+
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.4</version>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>attached</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<descriptor>src/assembly/assembly-cli.xml</descriptor>
+					</configuration>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>

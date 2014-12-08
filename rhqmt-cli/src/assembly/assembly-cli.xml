@@ -1,0 +1,93 @@
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+	<id>bin</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+
+	<includeBaseDirectory>true</includeBaseDirectory>
+
+	<fileSets>
+		<fileSet>
+			<directory>src/main/package/</directory>
+			<outputDirectory>rhqmt-cli</outputDirectory>
+			<filtered>true</filtered>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/target</directory>
+			<outputDirectory>rhqmt-cli/plugins</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/../rhqmt-server/target</directory>
+			<outputDirectory>rhqmt-cli/lib</outputDirectory>
+			<includes>
+				<include>rhqmt-server-${version}.jar</include>
+			</includes>
+		</fileSet>
+
+	</fileSets>
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>rhqmt-cli/clilib</outputDirectory>
+			<includes>
+				<include>org.clamshellcli:clamshell-api:jar:${clamshellcli.version}</include>
+				<include>org.clamshellcli:clamshell-impl-core:jar:${clamshellcli.version}</include>
+				<include>com.google.code.gson:gson:jar:2.0</include>
+			</includes>
+			<useProjectArtifact>true</useProjectArtifact>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+		<dependencySet>
+			<outputDirectory>rhqmt-cli/lib</outputDirectory>
+			<includes>
+				<include>org.slf4j:slf4j-api:jar:${slf4j.version}</include>
+				<include>org.slf4j:slf4j-simple:jar:${slf4j.version}</include>
+				<include>jline:jline:jar:${jline.version}</include>
+				<include>com.beust:jcommander:jar:${jcommander.version}</include>
+				<include>com.sun.jersey:jersey-client:jar:${com.sun.jersey.version}</include>
+				<include>com.sun.jersey:jersey-core:jar:${com.sun.jersey.version}</include>
+				<include>com.sun.jersey:jersey-json:jar:${com.sun.jersey.version}</include>
+				<include>com.sun.jersey:jersey-bundle:jar:${com.sun.jersey.version}</include>
+
+				<include>com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:jar:${jackson.api.version}</include>
+				<include>com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:jar:${jackson.api.version}</include>
+				<include>com.fasterxml.jackson.core:jackson-core:jar:${jackson.api.version}</include>
+				<include>com.fasterxml.jackson.core:jackson-databind:jar:${jackson.api.version}</include>
+				<include>com.fasterxml.jackson.core:jackson-annotations:jar:${jackson.api.version}</include>
+				
+				
+			</includes>
+			<useProjectArtifact>true</useProjectArtifact>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+		<dependencySet>
+			<outputDirectory>rhqmt-cli/plugins</outputDirectory>
+			<includes>
+				<include>org.clamshellcli:clamshell-echo-controller:jar:${clamshellcli.version}</include>
+				<include>org.clamshellcli:clamshell-impl-default:jar:${clamshellcli.version}</include>
+				<!-- <include>org.clamshellcli:clamshell-impl-splashscreen:jar:${clamshellcli.version}</include> -->
+				<include>org.clamshellcli:clamshell-time-command:jar:${clamshellcli.version}</include>
+			</includes>
+			<useProjectArtifact>true</useProjectArtifact>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+		<dependencySet>
+			<outputDirectory>rhqmt-cli</outputDirectory>
+			<includes>
+				<include>org.clamshellcli:clamshell-launcher:jar:${clamshellcli.version}</include>
+			</includes>
+			<outputFileNameMapping>cli.jar</outputFileNameMapping>
+			<useProjectArtifact>true</useProjectArtifact>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+	</dependencySets>
+</assembly>
