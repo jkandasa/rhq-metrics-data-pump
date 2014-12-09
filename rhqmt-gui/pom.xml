@@ -7,8 +7,8 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <name>rhqmt-webapp</name>
-    <artifactId>angularjs-webapp</artifactId>
+    <name>rhqmt-gui</name>
+    <artifactId>rhqmt-gui</artifactId>
     <packaging>jar</packaging>
 
     <properties>

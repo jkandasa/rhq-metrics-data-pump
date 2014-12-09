@@ -6,5 +6,6 @@ import org.rhq.metrics.qe.tools.rhqmt.server.uri.LocalUri;
  * Dec 08, 2014
  */
 public class RESTUri {
-	public static final String SEND_RHQ_METRICS_SIMPLE = LocalUri.RHQ+LocalUri.METRICS+LocalUri.SEND+LocalUri.SIMPLE;
+	public static final String RHQ_METRICS_SEND 	= LocalUri.RHQ+LocalUri.METRICS+LocalUri.SEND;
+	public static final String RHQ_METRICS_GENERATE = LocalUri.RHQ+LocalUri.METRICS+LocalUri.GENERATE;
 }

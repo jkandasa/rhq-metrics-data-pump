@@ -84,6 +84,7 @@ public class ConnectCommand implements Command{
 			if(commander == null) commander = new JCommander(new ConnectParams());
 			Map<String, String> result = new HashMap<String,String>();
 			List<ParameterDescription> params = commander.getParameters();
+			
 			for(ParameterDescription param : params){
 				result.put(param.getNames(), param.getDescription());
 			}

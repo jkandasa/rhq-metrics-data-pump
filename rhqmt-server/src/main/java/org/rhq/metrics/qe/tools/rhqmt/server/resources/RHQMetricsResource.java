@@ -6,9 +6,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.rhq.metrics.qe.tools.rhqmt.server.push.rhq.metrics.PumpData;
+import org.rhq.metrics.qe.tools.rhqmt.server.push.rhq.metrics.ProcessRHQMetrics;
 import org.rhq.metrics.qe.tools.rhqmt.server.representations.core.ExecutionStatus;
-import org.rhq.metrics.qe.tools.rhqmt.server.representations.core.RHQMetricSimpleInput;
+import org.rhq.metrics.qe.tools.rhqmt.server.representations.core.RHQMetricInput;
 import org.rhq.metrics.qe.tools.rhqmt.server.uri.LocalUri;
 
 import com.codahale.metrics.annotation.Timed;
@@ -22,15 +22,15 @@ import com.codahale.metrics.annotation.Timed;
 public class RHQMetricsResource {
 	
 	@POST
-	@Path(LocalUri.SEND+LocalUri.SIMPLE)
+	@Path(LocalUri.SEND)
 	@Timed
-	public ExecutionStatus sendMetricsSimpleInput(RHQMetricSimpleInput simpleInput){
-		return new PumpData().sendMetrics(simpleInput);
+	public ExecutionStatus sendRHQMetrics(RHQMetricInput rhqMetricInput){
+		return new ProcessRHQMetrics().sendMetrics(rhqMetricInput);
 	}
 	@POST
-	@Path(LocalUri.RECEIVE+LocalUri.SIMPLE)
+	@Path(LocalUri.GENERATE)
 	@Timed
-	public Object[] getMetricsSimpleInput(RHQMetricSimpleInput simpleInput){
-		return new PumpData().getMetrics(simpleInput);
+	public Object[] getRHQMetrics(RHQMetricInput rhqMetricInput){
+		return new ProcessRHQMetrics().getMetrics(rhqMetricInput);
 	}
 }

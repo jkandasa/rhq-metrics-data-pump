@@ -55,7 +55,7 @@
 
 	<modules>
 		<module>rhqmt-server</module>
-		<module>rhqmt-webapp</module>
+		<module>rhqmt-gui</module>
 		<module>rhqmt-cli</module>
 	</modules>
 

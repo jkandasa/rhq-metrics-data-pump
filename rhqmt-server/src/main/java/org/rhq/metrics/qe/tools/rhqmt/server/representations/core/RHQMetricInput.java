@@ -10,7 +10,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * Nov 27, 2014
  */
 
-public class RHQMetricSimpleInput  implements Serializable{
+public class RHQMetricInput  implements Serializable{
 
 	/**
 	 * 
@@ -26,6 +26,7 @@ public class RHQMetricSimpleInput  implements Serializable{
 	private Date metricStartTime;
 	private Date metricEndTime;
 	private String template;
+	private Integer metricLimit;
 	
 	public String toString(){
 		return ToStringBuilder.reflectionToString(this).toString();
@@ -91,6 +92,16 @@ public class RHQMetricSimpleInput  implements Serializable{
 
 	public void setRhqServer(String rhqServer) {
 		this.rhqServer = rhqServer;
+	}
+
+
+	public Integer getMetricLimit() {
+		return metricLimit;
+	}
+
+
+	public void setMetricLimit(Integer metricLimit) {
+		this.metricLimit = metricLimit;
 	}
 
 }
