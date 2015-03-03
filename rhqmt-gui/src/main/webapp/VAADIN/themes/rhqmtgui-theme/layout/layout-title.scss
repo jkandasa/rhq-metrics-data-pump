@@ -1,0 +1,19 @@
+@mixin layout-title {
+
+	.v-slot-layout-content-header{
+		
+	}
+	.layout-content-header{
+		background: #000000;
+		color: #FFFFFF;
+		padding: 9px 10px;
+		width: 100%;
+	}	
+	
+	.layout-content-header .v-label {
+		text-align: left;
+		color: #ffffff;
+		font-size: 14px;
+	}
+
+}

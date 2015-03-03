@@ -8,8 +8,8 @@ import org.apache.log4j.Logger;
 import org.rhq.metrics.qe.tools.rhqmt.rest.client.JerseyJSONClient;
 import org.rhq.metrics.qe.tools.rhqmt.server.representations.core.ExecutionStatus;
 import org.rhq.metrics.qe.tools.rhqmt.server.representations.core.RHQMetricInput;
-import org.rhq.metrics.qe.tools.rhqmt.server.representations.rhq.RHQMetrics;
-import org.rhq.metrics.qe.tools.rhqmt.server.uri.RHQuri;
+import org.rhq.metrics.qe.tools.rhqmt.server.representations.hawkular.RHQMetrics;
+import org.rhq.metrics.qe.tools.rhqmt.server.uri.HawkularMetricsUri;
 
 
 /**
@@ -41,14 +41,14 @@ public class ProcessRHQMetrics {
 			_logger.info("Generated Metrics, Number of metrics: "+rhqMetrics.size());
 			long restStartTime = new Date().getTime();
 			if(rhqMetrics.size() < METRICS_MAXIMUM_LIMIT_SEND){
-				jsonClient.post(RHQuri.PUSH_METRICS, rhqMetrics.toArray());
+				jsonClient.post(HawkularMetricsUri.PUSH_METRICS, rhqMetrics.toArray());
 			}else{
 				for(int sendCount = 0; sendCount < rhqMetrics.size();){
 					if((sendCount+METRICS_MAXIMUM_LIMIT_SEND) <= rhqMetrics.size()){
-						jsonClient.post(RHQuri.PUSH_METRICS, rhqMetrics.subList(sendCount, sendCount+METRICS_MAXIMUM_LIMIT_SEND).toArray());
+						jsonClient.post(HawkularMetricsUri.PUSH_METRICS, rhqMetrics.subList(sendCount, sendCount+METRICS_MAXIMUM_LIMIT_SEND).toArray());
 						sendCount += METRICS_MAXIMUM_LIMIT_SEND;
 					}else{
-						jsonClient.post(RHQuri.PUSH_METRICS, rhqMetrics.subList(sendCount, sendCount + (rhqMetrics.size() % METRICS_MAXIMUM_LIMIT_SEND)).toArray());
+						jsonClient.post(HawkularMetricsUri.PUSH_METRICS, rhqMetrics.subList(sendCount, sendCount + (rhqMetrics.size() % METRICS_MAXIMUM_LIMIT_SEND)).toArray());
 						sendCount = rhqMetrics.size();
 					}
 				}

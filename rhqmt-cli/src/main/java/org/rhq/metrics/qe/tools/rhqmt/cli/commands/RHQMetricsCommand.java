@@ -13,12 +13,12 @@ import org.clamshellcli.api.Context;
 import org.clamshellcli.api.IOConsole;
 import org.rhq.metrics.qe.tools.rhqmt.cli.ConsoleCommands;
 import org.rhq.metrics.qe.tools.rhqmt.cli.ConsoleMessage;
-import org.rhq.metrics.qe.tools.rhqmt.cli.RESTUri;
 import org.rhq.metrics.qe.tools.rhqmt.cli.RHQMTServer;
 import org.rhq.metrics.qe.tools.rhqmt.cli.converter.DateConverter;
+import org.rhq.metrics.qe.tools.rhqmt.server.RESTUri;
 import org.rhq.metrics.qe.tools.rhqmt.server.representations.core.ExecutionStatus;
 import org.rhq.metrics.qe.tools.rhqmt.server.representations.core.RHQMetricInput;
-import org.rhq.metrics.qe.tools.rhqmt.server.representations.rhq.RHQMetrics;
+import org.rhq.metrics.qe.tools.rhqmt.server.representations.hawkular.RHQMetrics;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;

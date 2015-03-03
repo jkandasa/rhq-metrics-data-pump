@@ -1,0 +1,15 @@
+@mixin radio-button-multi {
+
+	.radio-button {
+		margin: 5px 5px;
+		font-size: 19px;
+		background-color:#1e6468;
+	}
+
+	.radio-button .v-radiobutton {
+		margin-top: 3px;
+		font-weight:bold;
+	}
+
+
+}

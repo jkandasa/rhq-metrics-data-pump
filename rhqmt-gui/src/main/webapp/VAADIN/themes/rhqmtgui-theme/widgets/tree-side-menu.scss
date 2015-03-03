@@ -1,0 +1,21 @@
+@mixin tree-side-menu {
+	.tree-side-menu{
+		
+	}
+	
+	.tree-side-menu .v-tree-node-root .v-tree-node-caption{
+		font-size: 14px;
+		font-weight:bolder;
+	}
+	
+	.tree-side-menu .v-tree-node-children-root .v-tree-node-caption{
+		font-size: 13px;
+		font-weight:bold;
+		
+	}
+	
+	.tree-side-menu .v-tree-node-leaf .v-tree-node-caption{
+		font-size: 13px;
+		font-weight:normal;
+	}
+}

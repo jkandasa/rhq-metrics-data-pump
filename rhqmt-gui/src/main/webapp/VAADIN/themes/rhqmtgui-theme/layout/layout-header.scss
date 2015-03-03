@@ -1,0 +1,13 @@
+@mixin layout-header {
+
+	.v-slot-layout-header{
+		background-color:#8b8b8b; 
+	}
+
+	.v-slot-layout-header .v-label{
+		color:#FFFFFF; 
+		padding:3px 15px 3px 20px;	
+		font-size:24px;	
+	}
+
+}

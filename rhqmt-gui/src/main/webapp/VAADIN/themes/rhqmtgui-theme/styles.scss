@@ -1,0 +1,42 @@
+@import "addons.scss";
+@import "rhqmtgui-theme.scss";
+
+/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
+/* The actual styles should be defined in rhqmtgui-theme.scss */
+.rhqmtgui-theme {
+  	@include addons;
+  	@include rhqmtgui-theme;
+    
+    .v-app, .v-window, .v-popupview-popup, .v-tooltip, .v-app input, .v-app select, 
+	.v-app button, .v-app textarea, .v-window input, .v-window select, 
+	.v-window button, .v-window textarea, .v-popupview-popup input, 
+	.v-popupview-popup select, .v-popupview-popup button, 
+	.v-popupview-popup textarea, .v-filterselect-suggestpopup, 
+	.v-datefield-popup, .v-contextmenu, .v-notification, .v-menubar-submenu, 
+	.v-drag-element, .v-customoverlay, .v-button-link,
+	.v-nativebutton, .v-nativebutton-caption, .v-textfield, .v-textfield-prompt,
+	.tray-notification, .v-textarea, .v-Notification, .v-label, .v-checkbox, .v-filterselect, .v-radiobutton,
+	.v-filterselect-input,
+	.v-select-twincol-caption-left, .v-select-twincol-caption-right,
+	.v-select-twincol-options, .v-select-twincol-selections
+	{	
+  		font-family: "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif !important;
+	}
+	
+	//Logo Text
+	.v-slot-text-logo .text-logo{
+		
+	}
+	
+	//Content Header
+	.layout-header .v-label{
+		font-size: 18px !important;
+		text-transform: uppercase !important;
+	}
+	
+		//To remove dotted lines on menu button selection
+	button::-moz-focus-inner {
+  		border: 0;
+	}
+
+}

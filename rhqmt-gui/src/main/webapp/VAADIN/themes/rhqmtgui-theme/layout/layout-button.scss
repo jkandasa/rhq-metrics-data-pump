@@ -1,0 +1,13 @@
+@mixin layout-button {
+
+	.layout-bottom-button{
+		background-color:#B0B0B0;
+		padding: 9px 9px;
+		width: 100%;
+	}	
+	
+	.layout-bottom-button .v-button {
+		cursor:pointer;
+	}
+
+}

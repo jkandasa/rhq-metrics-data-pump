@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<!-- Entities Name alias -->
+		<typeAlias type="org.rhq.metrics.qe.tools.rhqmt.server.database.entities.JobDetail" alias="JobDetail" />
+		<typeAlias type="org.rhq.metrics.qe.tools.rhqmt.server.database.entities.MetricsTemplate" alias="MetricsTemplate" />
+		<typeAlias type="org.rhq.metrics.qe.tools.rhqmt.server.database.entities.MetricsJobData" alias="MetricsJobData" />
+
+		<!-- Mappers Name alias -->
+		<typeAlias type="org.rhq.metrics.qe.tools.rhqmt.server.database.mappers.JobDetailMapper" alias="JobDetailMapper" />
+		<typeAlias type="org.rhq.metrics.qe.tools.rhqmt.server.database.mappers.MetricsTemplateMapper" alias="MetricsTemplateMapper" />
+		<typeAlias type="org.rhq.metrics.qe.tools.rhqmt.server.database.mappers.MetricsJobDataMapper" alias="MetricsJobDataMapper" />
+
+	</typeAliases>
+
+	<environments default="production">
+		<environment id="production">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="org.postgresql.Driver" />
+				<property name="url" value="jdbc:postgresql://rhqmt.bc.jonqe.lab.eng.bos.redhat.com:5432/rhqmtserverdb?autoReconnect=true" />
+				<property name="username" value="rhqmtadmin" />
+				<property name="password" value="rhqmtadmin" />
+			</dataSource>
+		</environment>
+	</environments>
+
+
+
+	<mappers>
+		<mapper resource="mappersxml/MetricsJobDataMapper.xml" />
+		<mapper resource="mappersxml/JobDetailMapper.xml" />
+		<mapper resource="mappersxml/MetricsTemplateMapper.xml" />
+
+	</mappers>
+
+
+
+
+
+</configuration>

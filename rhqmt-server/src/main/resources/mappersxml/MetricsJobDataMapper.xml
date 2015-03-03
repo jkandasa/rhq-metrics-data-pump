@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.rhq.metrics.qe.tools.rhqmt.server.database.mappers.MetricsJobDataMapper">
+	<resultMap type="MetricsJobData" id="metricsJobDataMap">
+		<id column="id" property="id" />
+		<result property="jobId" column="job_id" />
+		<result property="targetServer" column="target_server" />
+		<result property="tenantId" column="tenant_id" />
+		<result property="metricNameId" column="metric_name_id" />
+		<result property="metricInterval" column="metric_interval" />
+		<result property="metricCount" column="metric_count" />
+		<result property="metricValueLowest" column="metric_value_lowest" />
+		<result property="metricValueHighest" column="metric_value_highest" />
+		<result property="metricLimit" column="metric_limit" />
+		<result property="validateResult" column="validate_result" />		
+	</resultMap>
+
+	<select id="getAll" resultMap="metricsJobDataMap">
+		SELECT * FROM metrics_job_data ORDER BY id ASC
+	</select>
+	
+	<select id="get" resultMap="metricsJobDataMap" parameterType="MetricsJobData">
+		SELECT * FROM metrics_job_data
+		<trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="id != null">id = #{id}</if>
+			<if test="jobId != null">job_id = #{jobId}</if>
+			<if test="targetServer != null">AND target_server = #{targetServer}</if>
+			<if test="metricNameId != null">AND metric_name_id = #{metricNameId}</if>
+			<if test="tenantId != null">AND tenant_id = #{tenantId}</if>
+		</trim>
+		 ORDER BY id ASC
+	</select>
+	
+	<insert id="add" parameterType="MetricsJobData">
+		INSERT INTO metrics_job_data (job_id, target_server, tenant_id, metric_name_id, metric_interval, metric_value_lowest, metric_value_highest, metric_limit, metric_count, validate_result)
+		VALUES (#{jobId},#{targetServer},#{tenantId},#{metricNameId},#{metricInterval},#{metricValueLowest},#{metricValueHighest},#{metricLimit},#{metricCount},#{validateResult})
+	</insert>
+	
+	<delete id="delete" parameterType="MetricsJobData">
+		DELETE FROM metrics_job_data WHERE
+		<trim prefixOverrides="AND | OR ">
+			<if test="id != null">id = #{id}</if>
+			<if test="jobId != null">job_id = #{jobId}</if>
+			<if test="targetServer != null">AND target_server = #{targetServer}</if>
+			<if test="metricNameId != null">AND metric_name_id = #{metricNameId}</if>
+			<if test="tenantId != null">AND tenant_id = #{tenantId}</if>
+		</trim>
+	</delete>
+	
+	<update id="update" parameterType="MetricsJobData">
+		UPDATE metrics_job_data
+		<trim prefix="SET" suffixOverrides="," prefixOverrides=",">
+			<if test="targetServer != null">target_server = #{targetServer},</if>
+			<if test="metricNameId != null">metric_name_id=#{metricNameId},</if>
+			<if test="metricInterval != null">metric_interval=#{metricInterval},</if>
+			<if test="metricCount != null">metric_count=#{metricCount},</if>
+			<if test="metricValueLowest != null">metric_value_lowest=#{metricValueLowest},</if>
+			<if test="metricValueHighest != null">metric_value_highest=#{metricValueHighest},</if>
+			<if test="metricLimit != null">metric_limit=#{metricLimit},</if>
+			<if test="validateResult != null">validate_result=#{validateResult},</if>
+			<if test="jobId != null">job_id = #{jobId},</if>
+			<if test="tenantId != null">AND tenant_id = #{tenantId},</if>
+		</trim>
+		WHERE id=#{id}
+	</update>
+	
+</mapper>

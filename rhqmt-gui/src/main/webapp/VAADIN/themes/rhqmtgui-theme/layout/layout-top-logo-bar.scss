@@ -1,0 +1,17 @@
+@mixin layout-top-logo-bar {
+
+	.layout-top-logo-bar{
+		background-color:#000000;
+		color:#FCFCFC;
+	}
+	
+	.layout-top-logo-bar .v-label-text-logo{
+		background-color:#000000;
+		color:#FFFFFF;
+		font-size:21px;
+		font-weight: bold;
+		text-transform: uppercase;
+		margin-left: 10px;
+	}
+
+}

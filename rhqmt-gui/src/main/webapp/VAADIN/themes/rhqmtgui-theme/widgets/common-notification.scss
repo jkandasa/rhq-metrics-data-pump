@@ -1,0 +1,19 @@
+@mixin common-notification {
+	
+	.tray-notification {
+		font-size: 13px;
+		background-color: #EFEFEF;
+		border: 1px solid #000000;
+		color: #000000;
+		width: 100%;
+	}
+	
+	.tray-notification h1 {
+		font-size: 13px;
+	}
+	
+	.tray-notification p {
+		font-size: 11px;
+	}
+	
+}

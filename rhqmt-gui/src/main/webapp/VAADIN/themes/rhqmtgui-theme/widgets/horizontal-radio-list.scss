@@ -1,0 +1,17 @@
+@mixin horizontal-radio-list {
+
+	/* Lay the options horizontally */
+	.horizontal-radio-list .v-select-option {
+		display: inline-block;
+	}
+
+	/* Avoid wrapping if the layout is too tight */
+	.horizontal-radio-list {
+		white-space: nowrap;
+	}
+
+	/* Some extra spacing is needed */
+	.horizontal-radio-list .v-select-option {
+		padding-right: 7px;
+	}
+}

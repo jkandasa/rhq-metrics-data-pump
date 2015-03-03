@@ -1,0 +1,45 @@
+@mixin main-menu {
+	
+	
+	.v-slot-layout-top-menu{
+		
+	}
+	
+	.layout-top-menu {
+	  width: 100%;
+	  line-height: 1;
+	  background: #686868;	
+	}
+
+	.layout-top-menu .button-main-menu:before {
+		content: '';
+		display: block;
+		
+	}
+	.layout-top-menu .button-main-menu:after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+
+	.layout-top-menu .button-main-menu {
+		border: 2px solid #686868;
+		background: transparent;
+		padding: 4px;
+	  	font-size: 13px;
+	  	text-transform: uppercase;
+	  	color: #FFFFFF;
+	}
+	.layout-top-menu .button-main-menu:hover {
+		color: #FFFFFF;
+		background: #000000;
+		border: 2px solid #000000;
+	}
+	.layout-top-menu .button-main-menu-selected {
+		color: #FFFFFF;
+		background: #000000;
+		border: 2px solid #000000;
+		-webkit-appearance: none;
+  		-webkit-border-radius: 0px;
+	}
+}

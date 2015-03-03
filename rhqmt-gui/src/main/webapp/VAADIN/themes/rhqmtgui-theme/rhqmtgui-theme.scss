@@ -1,0 +1,44 @@
+/* Import the reindeer theme.*/
+/* This only allows us to use the mixins defined in it and does not add any styles by itself. */
+@import "../valo/valo";
+@import "common.scss";
+@import "layout/layout-root.scss";
+@import "layout/main-menu.scss";
+@import "layout/side-menu.scss";
+@import "layout/layout-button.scss";
+@import "layout/layout-title.scss";
+@import "widgets/accordion-side-menu.scss";
+@import "widgets/tree-side-menu.scss";
+@import "widgets/common-table.scss";
+@import "widgets/common-notification.scss";
+@import "widgets/radio-button-multi.scss";
+@import "widgets/horizontal-radio-list.scss";
+@import "layout/popup-window.scss";
+@import "layout/layout-header.scss";
+@import "layout/layout-footer.scss";
+@import "layout/layout-top-logo-bar.scss";
+
+/* This contains all of your theme.*/
+/* If somebody wants to extend the theme she will include this mixin. */
+@mixin rhqmtgui-theme {
+	/* Include all the styles from the reindeer theme */
+	@include valo;
+	@include layout-root;
+	@include main-menu;
+	@include side-menu;
+	@include layout-button;
+	@include layout-title;
+	@include accordion-side-menu;
+	@include common-table;
+	@include tree-side-menu;
+	@Include common-notification;
+	@Include popup-window;
+	@Include radio-button-multi;
+	@Include horizontal-radio-list;
+	@Include layout-header;
+	@Include layout-footer;
+	@Include layout-top-logo-bar;
+	/* Insert your theme rules here */
+	/* An actual theme rule */
+
+}

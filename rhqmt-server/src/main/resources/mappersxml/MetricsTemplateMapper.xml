@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.rhq.metrics.qe.tools.rhqmt.server.database.mappers.MetricsTemplateMapper">
+	<resultMap type="MetricsTemplate" id="metricsTemplateMap">
+		<id column="id" property="id" />
+		<result property="name" column="name" />
+		<result property="metricNameId" column="metric_name_id" />
+		<result property="metricInterval" column="metric_interval" />
+		<result property="metricCount" column="metric_count" />
+		<result property="metricValueLowest" column="metric_value_lowest" />
+		<result property="metricValueHighest" column="metric_value_highest" />
+		<result property="metricLimit" column="metric_limit" />
+	</resultMap>
+
+	<select id="getAll" resultMap="metricsTemplateMap">
+		SELECT * FROM metrics_template ORDER BY id ASC
+	</select>
+	
+	<select id="get" resultMap="metricsTemplateMap" parameterType="MetricsTemplate">
+		SELECT * FROM metrics_template
+		<trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="id != null">id = #{id}</if>
+			<if test="name != null">AND name = #{name}</if>
+			<if test="metricNameId != null">AND metric_name_id = #{metricNameId}</if>
+		</trim>
+		 ORDER BY id ASC
+	</select>
+	
+	<insert id="add" parameterType="MetricsTemplate">
+		INSERT INTO metrics_template (name, metric_name_id, metric_interval, metric_value_lowest, metric_value_highest, metric_limit, metric_count)
+		VALUES (#{name},#{metricNameId},#{metricInterval},#{metricValueLowest},#{metricValueHighest},#{metricLimit},#{metricCount})
+	</insert>
+	
+	<delete id="delete" parameterType="MetricsTemplate">
+		DELETE FROM metrics_template WHERE
+		<trim prefixOverrides="AND | OR ">
+			<if test="id != null">id = #{id}</if>
+			<if test="name != null">AND name = #{name}</if>
+			<if test="metricNameId != null">AND metric_name_id = #{metricNameId}</if>
+		</trim>
+	</delete>
+	
+	<update id="update" parameterType="MetricsTemplate">
+		UPDATE metrics_template
+		<trim prefix="SET" suffixOverrides="," prefixOverrides=",">
+			<if test="name != null">name=#{name},</if>
+			<if test="metricNameId != null">metric_name_id=#{metricNameId},</if>
+			<if test="metricInterval != null">metric_interval=#{metricInterval},</if>
+			<if test="metricCount != null">metric_count=#{metricCount},</if>
+			<if test="metricValueLowest != null">metric_value_lowest=#{metricValueLowest},</if>
+			<if test="metricValueHighest != null">metric_value_highest=#{metricValueHighest},</if>
+			<if test="metricLimit != null">metric_limit=#{metricLimit},</if>
+		</trim>
+		WHERE id=#{id}
+	</update>
+	
+</mapper>

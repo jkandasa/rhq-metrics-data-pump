@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.rhq.metrics.qe.tools.rhqmt.server.database.mappers.JobDetailMapper">
+	<resultMap type="JobDetail" id="jobDetailMap">
+		<id column="id" property="id" />
+		<result property="name" column="name" />
+		<result property="jobType" column="job_type" />
+		<result property="cronExpression" column="cron_expression" />
+		<result property="repeatCount" column="repeat_count" />
+		<result property="repeatInterval" column="repeat_interval" />
+		<result property="fromTime" column="from_time" />
+		<result property="toTime" column="to_time" />
+		<result property="enabled" column="enabled" />
+		<result property="targetClass" column="target_class" />	
+		
+		<association property="metricsJobData" column="id" javaType="MetricsJobData" select="selectMetricsJobData" />	
+	</resultMap>
+	
+	<select id="selectMetricsJobData" parameterType="long" resultMap="org.rhq.metrics.qe.tools.rhqmt.server.database.mappers.MetricsJobDataMapper.metricsJobDataMap">
+		SELECT * FROM metrics_job_data WHERE job_id = #{id}
+	</select>
+
+	<select id="getAll" resultMap="jobDetailMap">
+		SELECT * FROM job_detail ORDER BY id ASC
+	</select>
+	
+	<select id="getAllRealTimeMetrics" resultMap="jobDetailMap">
+		SELECT * FROM job_detail WHERE job_type='REAL_TIME_METRICS' ORDER BY id ASC
+	</select>
+	
+	<select id="get" resultMap="jobDetailMap" parameterType="JobDetail">
+		SELECT * FROM job_detail
+		<trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="id != null">id = #{id}</if>
+			<if test="name != null">AND name = #{name}</if>
+			<if test="jobType != null">AND job_type = #{jobType}</if>
+			<if test="enabled != null">AND enabled = #{enabled}</if>
+			<if test="targetClass != null">AND target_class = #{targetClass}</if>
+		</trim>
+		 ORDER BY id ASC
+	</select>
+	
+	<insert id="add" parameterType="JobDetail">
+		INSERT INTO job_detail (name, job_type, cron_expression, repeat_count, repeat_interval, from_time, to_time, enabled, target_class)
+		VALUES (#{name},#{jobType},#{cronExpression},#{repeatCount},#{repeatInterval},#{fromTime},#{toTime},#{enabled},#{targetClass})
+	</insert>
+	
+	<update id="enable" parameterType="JobDetail">
+		UPDATE job_detail SET enabled=true WHERE id = #{id}
+	</update>
+	
+	<update id="disable" parameterType="JobDetail">
+		UPDATE job_detail SET enabled=false WHERE id = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="JobDetail">
+		DELETE FROM job_detail WHERE
+		<trim prefixOverrides="AND | OR ">
+			<if test="id != null">id = #{id}</if>
+			<if test="name != null">AND name = #{name}</if>
+			<if test="jobType != null">AND job_type = #{jobType}</if>
+		</trim>
+	</delete>
+	
+</mapper>

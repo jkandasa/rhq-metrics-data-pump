@@ -1,0 +1,33 @@
+@mixin side-menu {
+	
+	.accordion-side-menu .button-side-menu {
+		font-size: 14px;
+	 	text-overflow: ellipsis;
+    	color: rgb(51, 51, 51);
+    	background-color: rgb(250, 250, 250);
+    	border-width: 1px 0 1px 0;
+    	border-color: transparent;
+    	//border-style: solid;
+		text-align: left;
+		width: 100%;
+	}
+	
+	.accordion-side-menu .button-side-menu:hover{
+		background-color: #D6D6D6 !important;
+    	//border-color: #000000;
+	}
+	
+	.accordion-side-menu .button-side-menu-selected {
+		background: none repeat scroll 0 0 #686868 !important;
+    	//border-color: #000000 !important;
+    	color: #fff;
+	}
+	
+	.accordion-side-menu .button-side-menu-selected:hover {
+		background: none repeat scroll 0 0 #686868 !important;
+    	//border-color: #000000 !important;
+    	color: #fff;
+	}
+	
+	
+}

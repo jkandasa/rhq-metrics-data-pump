@@ -1,0 +1,16 @@
+@mixin common-table {
+	
+	.table-common {
+	 	text-overflow: ellipsis;
+	}
+	
+	.table-common .v-table-caption-container {
+		font-size: 13px;
+		font-weight:bold;		
+	}
+	
+	.table-common .v-table-body{
+		font-size: 12px;
+	}
+	
+}

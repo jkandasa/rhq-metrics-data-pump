@@ -1,0 +1,24 @@
+@mixin popup-window {
+
+	.popup-window{
+		border-style: solid;
+		border-color: black;
+    	border-width: 1px;
+	}
+	
+	.popup-window .v-window-outerheader{
+		background:#8b8b8b; 
+		border-left:6px solid #003680; 
+		//padding: 10px 10px;
+		width:100%
+	}
+		
+	.popup-window .v-window-outerheader .v-window-header {
+		text-align: left;
+		color:#FFFFFF; 
+		font-size:24px;	
+		//padding: 10px 10px;
+		text-transform: uppercase;
+	}
+
+}
