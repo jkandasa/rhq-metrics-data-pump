@@ -7,23 +7,46 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * @author jkandasa@redhat.com (Jeeva Kandasamy)
  */
-public class JobStatus implements Serializable{
+public class JobStatusMessage implements Serializable{
 
     /**
      * 
      */
     private static final long serialVersionUID = 3017197786358366989L;
 
+    public enum TYPE{
+        REALTIME_METRIC
+    }
     public enum STATUS{
-        RUNNING,STOPPED,FAILED
+        RUNNING,
+        STOPPED,
+        FAILED,
+        INFO,
+        WARNING,
+        ERROR,
+        SUCCESS,
+        DISBLED,
+        ENABLED
     }
     
     private Long id;
     private Long jobId;
+    private String type;
     private String status;
     private Date creationTime;
-    private String log;
     private String message;
+    
+    public JobStatusMessage(){
+        super();
+    }
+    
+    public JobStatusMessage(Long jobId, String type, String status, String message){
+        this.jobId = jobId;
+        this.type = type;
+        this.status = status;
+        this.message = message;
+    }
+    
     
     public String toString(){
         return ToStringBuilder.reflectionToString(this).toString();
@@ -61,20 +84,20 @@ public class JobStatus implements Serializable{
         this.creationTime = creationTime;
     }
 
-    public String getLog() {
-        return log;
-    }
-
-    public void setLog(String log) {
-        this.log = log;
-    }
-
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
     
     

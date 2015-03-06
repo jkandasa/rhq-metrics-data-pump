@@ -1,5 +1,6 @@
 package org.rhq.metrics.qe.tools.rhqmt.server;
 
+import org.rhq.metrics.qe.tools.rhqmt.server.database.PostgresSqlSessionFactory;
 import org.rhq.metrics.qe.tools.rhqmt.server.health.TemplateHealthCheck;
 import org.rhq.metrics.qe.tools.rhqmt.server.resources.RHQMetricsRealTimeJob;
 import org.rhq.metrics.qe.tools.rhqmt.server.resources.RHQMetricsResource;
@@ -28,6 +29,7 @@ public class StartApplicaton extends Application<ServerConfiguration>{
 	}
 	
 	private void startServices(){
+	    PostgresSqlSessionFactory.initSqlSessionFactory();
 	    //Start Scheduler
 	    ManageScheduler.start();
 	}
@@ -36,10 +38,11 @@ public class StartApplicaton extends Application<ServerConfiguration>{
         //Stop Scheduler
         ManageScheduler.shutdown();
     }
-
+	
 	@Override
-	public void run(ServerConfiguration configuration, Environment environment) throws Exception {
-
+	public void run(ServerConfiguration configuration, Environment environment) {
+	    PostgresSqlSessionFactory.setConfiguration(configuration.getDatabaseConfiguration());
+	    
 	    startServices();
 	    
 	    //Add resources

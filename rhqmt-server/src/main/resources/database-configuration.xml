@@ -9,11 +9,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="org.rhq.metrics.qe.tools.rhqmt.server.database.entities.JobDetail" alias="JobDetail" />
 		<typeAlias type="org.rhq.metrics.qe.tools.rhqmt.server.database.entities.MetricsTemplate" alias="MetricsTemplate" />
 		<typeAlias type="org.rhq.metrics.qe.tools.rhqmt.server.database.entities.MetricsJobData" alias="MetricsJobData" />
+		<typeAlias type="org.rhq.metrics.qe.tools.rhqmt.server.database.entities.JobStatusMessage" alias="JobStatusMessage" />
 
 		<!-- Mappers Name alias -->
 		<typeAlias type="org.rhq.metrics.qe.tools.rhqmt.server.database.mappers.JobDetailMapper" alias="JobDetailMapper" />
 		<typeAlias type="org.rhq.metrics.qe.tools.rhqmt.server.database.mappers.MetricsTemplateMapper" alias="MetricsTemplateMapper" />
 		<typeAlias type="org.rhq.metrics.qe.tools.rhqmt.server.database.mappers.MetricsJobDataMapper" alias="MetricsJobDataMapper" />
+		<typeAlias type="org.rhq.metrics.qe.tools.rhqmt.server.database.mappers.MetricsJobDataMapper" alias="JobStatusMessageMapper" />
 
 	</typeAliases>
 
@@ -21,10 +23,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<environment id="production">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
-				<property name="driver" value="org.postgresql.Driver" />
-				<property name="url" value="jdbc:postgresql://rhqmt.bc.jonqe.lab.eng.bos.redhat.com:5432/rhqmtserverdb?autoReconnect=true" />
-				<property name="username" value="rhqmtadmin" />
-				<property name="password" value="rhqmtadmin" />
+				<property name="driver" value="${driverClass}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
 			</dataSource>
 		</environment>
 	</environments>
@@ -35,7 +37,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="mappersxml/MetricsJobDataMapper.xml" />
 		<mapper resource="mappersxml/JobDetailMapper.xml" />
 		<mapper resource="mappersxml/MetricsTemplateMapper.xml" />
-
+		<mapper resource="mappersxml/JobStatusMessageMapper.xml" />
 	</mappers>
 
 

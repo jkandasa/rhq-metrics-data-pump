@@ -13,6 +13,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.rhq.metrics.qe.tools.rhqmt.rest.client.JerseyJSONClient;
 import org.rhq.metrics.qe.tools.rhqmt.server.database.entities.MetricsJobData;
+import org.rhq.metrics.qe.tools.rhqmt.server.hawkular.WorkerRestPostHawkularMetrics;
 import org.rhq.metrics.qe.tools.rhqmt.server.scheduler.ScheduleDetail;
 import org.rhq.metrics.qe.tools.rhqmt.server.uri.HawkularMetricsUri;
 
@@ -26,16 +27,7 @@ public class SendRHQMetricsRealTime implements Job{
 
     private void sendMetrics(Long jobId, MetricsJobData jobData){
 
-        JerseyJSONClient jsonClient = null;
-        if(jobData.getTargetServer() != null){
-            if(jobData.getTargetServer().startsWith("http")){
-                jsonClient = new JerseyJSONClient(jobData.getTargetServer());
-            }else{
-                jsonClient = new JerseyJSONClient("http://"+jobData.getTargetServer());
-            }
-        }
-
-        /*//Check Tenant is exists
+         /*//Check Tenant is exists
         try {
             TenantParams[] tenantParams = (TenantParams[]) jsonClient.get(HawkularMetricsUri.TENANTS, TenantParams[].class);
         } catch (Exception ex) {
@@ -59,7 +51,7 @@ public class SendRHQMetricsRealTime implements Job{
                     (randomMetric.nextDouble()*(jobData.getMetricValueHighest()-jobData.getMetricValueLowest()))+jobData.getMetricValueLowest()));
         }   
          */
-        for(int i=0; i<jobData.getMetricCount();i++){
+        for(int i=0; i<jobData.getMetricDataCount();i++){
             numericDataPoints.add(new NumericDataPoint(new Date().getTime(), 
                     (randomMetric.nextDouble()*(jobData.getMetricValueHighest()-jobData.getMetricValueLowest()))+jobData.getMetricValueLowest()));
         }
@@ -77,10 +69,12 @@ public class SendRHQMetricsRealTime implements Job{
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             String json = ow.writeValueAsString(dataParamsList);
             _logger.debug("JSON String: "+json );
-            if(numericDataPoints.size() > jobData.getMetricLimit()){
+            if(numericDataPoints.size() > jobData.getMetricDataLimit()){
                 //TODO: add limit code
             }
-            jsonClient.post(HawkularMetricsUri.METRICS_DATA_NUMERIC.replaceAll(HawkularMetricsUri.TENENT_ID, jobData.getTenantId()), dataParamsList.toArray());
+            //jsonClient.post(HawkularMetricsUri.METRICS_DATA_NUMERIC.replaceAll(HawkularMetricsUri.TENENT_ID, jobData.getTenantId()), dataParamsList.toArray());
+            //Thread thread = new Thread(new WorkerRestPostHawkularMetrics(jobData, dataParamsList.toArray()));
+            //thread.start();
         } catch (Exception ex) {
             _logger.warn("Failed, ", ex);
         }

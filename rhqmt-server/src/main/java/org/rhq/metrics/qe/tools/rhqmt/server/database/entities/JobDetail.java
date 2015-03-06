@@ -20,7 +20,7 @@ public class JobDetail implements Serializable{
     }
     
     public enum TARGET_CLASS{
-        REAL_TIME_METRICS("org.rhq.metrics.qe.tools.rhqmt.server.scheduler.jobs.SendRHQMetricsRealTime");
+        REAL_TIME_METRICS("org.rhq.metrics.qe.tools.rhqmt.server.scheduler.jobs.SendHawkularMetricsRealTime");
         
         String targetClass =null;
         TARGET_CLASS(String targetClass){

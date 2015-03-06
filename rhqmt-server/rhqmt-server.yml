@@ -4,6 +4,13 @@
 template: Hello, %s!
 defaultName: rhqmt-server-default
 
+#database connection details
+database:
+  driverClass: org.postgresql.Driver
+  username: rhqmtadmin
+  password: rhqmtadmin
+  url: jdbc:postgresql://localhost:5432/rhqmtserverdb?autoReconnect=true
+  cleandb: false
 
 # use the simple server factory if you only want to run on a single port
 #server:

@@ -9,11 +9,13 @@
 		<result property="tenantId" column="tenant_id" />
 		<result property="metricNameId" column="metric_name_id" />
 		<result property="metricInterval" column="metric_interval" />
-		<result property="metricCount" column="metric_count" />
+		<result property="metricDataCount" column="metric_data_count" />
 		<result property="metricValueLowest" column="metric_value_lowest" />
 		<result property="metricValueHighest" column="metric_value_highest" />
-		<result property="metricLimit" column="metric_limit" />
-		<result property="validateResult" column="validate_result" />		
+		<result property="metricDataLimit" column="metric_data_limit" />
+		<result property="metricTimeLimit" column="metric_time_limit" />
+		<result property="validateResult" column="validate_result" />	
+		<result property="initialSetupDone" column="initial_setup_done" />		
 	</resultMap>
 
 	<select id="getAll" resultMap="metricsJobDataMap">
@@ -33,8 +35,10 @@
 	</select>
 	
 	<insert id="add" parameterType="MetricsJobData">
-		INSERT INTO metrics_job_data (job_id, target_server, tenant_id, metric_name_id, metric_interval, metric_value_lowest, metric_value_highest, metric_limit, metric_count, validate_result)
-		VALUES (#{jobId},#{targetServer},#{tenantId},#{metricNameId},#{metricInterval},#{metricValueLowest},#{metricValueHighest},#{metricLimit},#{metricCount},#{validateResult})
+		INSERT INTO metrics_job_data (job_id, target_server, tenant_id, metric_name_id, metric_interval, metric_value_lowest, 
+		metric_value_highest, metric_data_limit, metric_data_count, metric_time_limit, validate_result) VALUES (#{jobId},#{targetServer},
+		#{tenantId},#{metricNameId},#{metricInterval},#{metricValueLowest},#{metricValueHighest},#{metricDataLimit},#{metricDataCount},
+		#{metricTimeLimit},#{validateResult})
 	</insert>
 	
 	<delete id="delete" parameterType="MetricsJobData">
@@ -54,13 +58,15 @@
 			<if test="targetServer != null">target_server = #{targetServer},</if>
 			<if test="metricNameId != null">metric_name_id=#{metricNameId},</if>
 			<if test="metricInterval != null">metric_interval=#{metricInterval},</if>
-			<if test="metricCount != null">metric_count=#{metricCount},</if>
+			<if test="metricDataCount != null">metric_data_count=#{metricDataCount},</if>
 			<if test="metricValueLowest != null">metric_value_lowest=#{metricValueLowest},</if>
 			<if test="metricValueHighest != null">metric_value_highest=#{metricValueHighest},</if>
-			<if test="metricLimit != null">metric_limit=#{metricLimit},</if>
+			<if test="metricDataLimit != null">metric_data_limit=#{metricDataLimit},</if>
+			<if test="metricTimeLimit != null">metric_time_limit=#{metricTimeLimit},</if>
 			<if test="validateResult != null">validate_result=#{validateResult},</if>
 			<if test="jobId != null">job_id = #{jobId},</if>
-			<if test="tenantId != null">AND tenant_id = #{tenantId},</if>
+			<if test="tenantId != null">tenant_id = #{tenantId},</if>
+			<if test="initialSetupDone != null">initial_setup_done = #{initialSetupDone},</if>			
 		</trim>
 		WHERE id=#{id}
 	</update>

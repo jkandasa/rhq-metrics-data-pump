@@ -1,17 +1,13 @@
 package org.rhq.metrics.qe.tools.rhqmt.server.database.entities;
 
-import java.io.Serializable;
-
+import java.util.List;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.rhq.metrics.qe.tools.rhqmt.server.hawkular.InputMetricParams;
+import org.rhq.metrics.qe.tools.rhqmt.server.hawkular.InputTenantParams;
 /**
  * @author jkandasa@redhat.com (Jeeva Kandasamy)
  */
-public class MetricsJobData implements Serializable{
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 3505951305702315536L;
+public class MetricsJobData{
 
     private Long id;
     private Long jobId;
@@ -19,11 +15,16 @@ public class MetricsJobData implements Serializable{
     private String tenantId;
     private String metricNameId;
     private Long metricInterval;
-    private Long metricCount;
+    private Long metricDataCount;
     private Double metricValueLowest;
     private Double metricValueHighest;
-    private Long metricLimit;
+    private Long metricDataLimit;
+    private Long metricTimeLimit;
     private Boolean validateResult;
+    private Boolean initialSetupDone;
+    
+    private List<InputTenantParams> inputTenantParams;
+    private List<InputMetricParams> inputMetricParams;
     
     public String toString(){
         return ToStringBuilder.reflectionToString(this).toString();
@@ -85,12 +86,12 @@ public class MetricsJobData implements Serializable{
         this.metricValueHighest = metricValueHighest;
     }
 
-    public Long getMetricLimit() {
-        return metricLimit;
+    public Long getMetricDataLimit() {
+        return metricDataLimit;
     }
 
-    public void setMetricLimit(Long metricLimit) {
-        this.metricLimit = metricLimit;
+    public void setMetricDataLimit(Long metricLimit) {
+        this.metricDataLimit = metricLimit;
     }
 
     public Boolean getValidateResult() {
@@ -101,12 +102,12 @@ public class MetricsJobData implements Serializable{
         this.validateResult = validateResult;
     }
 
-    public Long getMetricCount() {
-        return metricCount;
+    public Long getMetricDataCount() {
+        return metricDataCount;
     }
 
-    public void setMetricCount(Long metricCount) {
-        this.metricCount = metricCount;
+    public void setMetricDataCount(Long metricCount) {
+        this.metricDataCount = metricCount;
     }
 
     public String getTenantId() {
@@ -115,5 +116,37 @@ public class MetricsJobData implements Serializable{
 
     public void setTenantId(String tenantId) {
         this.tenantId = tenantId;
+    }
+
+    public List<InputTenantParams> getInputTenantParams() {
+        return inputTenantParams;
+    }
+
+    public void setInputTenantParams(List<InputTenantParams> inputTenantParams) {
+        this.inputTenantParams = inputTenantParams;
+    }
+
+    public List<InputMetricParams> getInputMetricParams() {
+        return inputMetricParams;
+    }
+
+    public void setInputMetricParams(List<InputMetricParams> inputMetricParams) {
+        this.inputMetricParams = inputMetricParams;
+    }
+
+    public Long getMetricTimeLimit() {
+        return metricTimeLimit;
+    }
+
+    public void setMetricTimeLimit(Long metricTimeLimit) {
+        this.metricTimeLimit = metricTimeLimit;
+    }
+
+    public Boolean getInitialSetupDone() {
+        return initialSetupDone;
+    }
+
+    public void setInitialSetupDone(Boolean initialSetup) {
+        this.initialSetupDone = initialSetup;
     }
 }

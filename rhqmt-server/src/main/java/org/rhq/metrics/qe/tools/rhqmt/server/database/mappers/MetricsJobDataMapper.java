@@ -13,4 +13,5 @@ public interface MetricsJobDataMapper {
     public void enable(MetricsJobData metricsJobData);
     public void disable(MetricsJobData metricsJobData);
     public void delete(MetricsJobData metricsJobData);
+    public void update(MetricsJobData metricsJobData);
 }

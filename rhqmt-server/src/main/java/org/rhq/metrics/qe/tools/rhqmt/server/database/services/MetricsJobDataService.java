@@ -57,13 +57,13 @@ public class MetricsJobDataService extends ServiceBase{
         }        
     }
    
-  /* public void update(MetricsJobData metricsJobData) {
+  public void update(MetricsJobData metricsJobData) {
        SqlSession session = this.getSession();
        try {
            session.getMapper(MetricsJobDataMapper.class).update(metricsJobData);
        } finally {
            this.closeSession(session);
        }        
-   }*/
+   }
 
 }

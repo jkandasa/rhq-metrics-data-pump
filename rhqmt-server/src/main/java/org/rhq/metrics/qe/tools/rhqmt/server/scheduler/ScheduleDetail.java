@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.quartz.JobDataMap;
+import org.rhq.metrics.qe.tools.rhqmt.rest.client.JerseyJSONClient;
 import org.rhq.metrics.qe.tools.rhqmt.server.database.entities.JobDetail;
+import org.rhq.metrics.qe.tools.rhqmt.server.hawkular.ParseInputParams;
 
 /**
  * @author jkandasa@redhat.com (Jeeva Kandasamy)
@@ -19,6 +21,8 @@ public class ScheduleDetail implements Serializable{
 	public final static String JOB_TYPE = "JOB.TYPE";
 	public final static String JOB_DATA = "JOB.DATA";
 	public final static String JOB_ID   = "JOB.ID";
+	public final static String JOB_TENANTS_LIST = "";
+	public final static String JOB_METRICS_LIST = "";
 	
 	public enum GROUP{
 	    SYSTEM, USER
@@ -62,9 +66,17 @@ public class ScheduleDetail implements Serializable{
         dataMap.put(JOB_ID, jobDetail.getId());
         dataMap.put(JOB_TYPE, jobDetail.getJobType());
         if(jobDetail.getJobType().equals(JobDetail.JOB_TYPE.REAL_TIME_METRICS.toString())){
-            dataMap.put(JOB_DATA, jobDetail.getMetricsJobData());
+            jobDetail.getMetricsJobData().setInputTenantParams(
+                    new ParseInputParams().getTenants(jobDetail.getMetricsJobData().getTenantId()));
+            jobDetail.getMetricsJobData().setInputMetricParams(
+                    new ParseInputParams().getMetrics(jobDetail.getMetricsJobData().getMetricNameId()));
+            //Correct hawkular server url
+            if(! jobDetail.getMetricsJobData().getTargetServer().startsWith("http")){
+                jobDetail.getMetricsJobData().setTargetServer("http://"+jobDetail.getMetricsJobData().getTargetServer());
+            }
+            
+            dataMap.put(JOB_DATA, jobDetail.getMetricsJobData());            
         }
-        
         this.jobDataMap = dataMap;        
     }
 	

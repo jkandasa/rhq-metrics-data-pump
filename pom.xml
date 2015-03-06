@@ -30,7 +30,7 @@
 		<product.version>${project.version}</product.version>
 
 		<!-- JAR file versions -->
-		<dropwizard.version>0.7.0</dropwizard.version>
+
 	</properties>
 
 
