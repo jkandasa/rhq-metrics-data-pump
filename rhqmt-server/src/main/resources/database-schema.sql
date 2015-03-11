@@ -32,7 +32,6 @@ CREATE TABLE job_status_message(
 	message character varying(1000) null,
 	creation_time timestamp not null default statement_timestamp(),
 	unique(id),
-	unique(job_id),
 	foreign key (job_id) references job_detail(id) on delete cascade
 );
 --Table: Real Time Metric Job data
@@ -45,7 +44,8 @@ CREATE TABLE metrics_job_data(
 	metric_interval integer null,
 	metric_data_count integer not null default 1,
 	metric_time_limit integer null,
-	metric_data_limit integer null,
+	metric_data_limit integer not null default 1000,
+	metric_limit integer not null default -1,
 	metric_value_lowest double precision not null default 0.0,
 	metric_value_highest double precision not null default 100.0,
 	validate_result boolean not null default false,

@@ -22,6 +22,11 @@ public class ServerConfiguration extends Configuration{
     @NotNull
     @JsonProperty("database")
 	private DatabaseConfiguration databaseConfiguration;
+	
+	@Valid
+    @NotNull
+    @JsonProperty("threadpool")
+    private ThreadPoolConfiguration threadPoolConfiguration;
     
     @NotEmpty
     @JsonProperty
@@ -37,6 +42,10 @@ public class ServerConfiguration extends Configuration{
 
     public DatabaseConfiguration getDatabaseConfiguration() {
         return databaseConfiguration;
+    }
+
+    public ThreadPoolConfiguration getThreadPoolConfiguration() {
+        return threadPoolConfiguration;
     }
     
     

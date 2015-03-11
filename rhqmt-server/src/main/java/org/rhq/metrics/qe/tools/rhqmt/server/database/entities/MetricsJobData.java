@@ -20,6 +20,7 @@ public class MetricsJobData{
     private Double metricValueHighest;
     private Long metricDataLimit;
     private Long metricTimeLimit;
+    private Long metricLimit;
     private Boolean validateResult;
     private Boolean initialSetupDone;
     
@@ -148,5 +149,13 @@ public class MetricsJobData{
 
     public void setInitialSetupDone(Boolean initialSetup) {
         this.initialSetupDone = initialSetup;
+    }
+
+    public Long getMetricLimit() {
+        return metricLimit;
+    }
+
+    public void setMetricLimit(Long metricLimit) {
+        this.metricLimit = metricLimit;
     }
 }

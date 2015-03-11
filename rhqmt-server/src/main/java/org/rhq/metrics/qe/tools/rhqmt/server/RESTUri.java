@@ -14,8 +14,9 @@ public class RESTUri {
 	public static final String RHQ_METRICS_TEMPLATE_EDIT      = LocalUri.RHQ+LocalUri.METRICS+LocalUri.TEMPLATE+LocalUri.EDIT;
 	public static final String RHQ_METRICS_TEMPLATE_DELETE    = LocalUri.RHQ+LocalUri.METRICS+LocalUri.TEMPLATE+LocalUri.DELETE;
 	
-	public static final String RHQ_METRICS_JOB_REAL_TIME_LIST   = LocalUri.RHQ+LocalUri.METRICS+LocalUri.JOB+LocalUri.REAL_TIME+LocalUri.LIST;
+	public static final String RHQ_METRICS_JOB_REAL_TIME        = LocalUri.RHQ+LocalUri.METRICS+LocalUri.JOB+LocalUri.REAL_TIME;
+	//public static final String RHQ_METRICS_JOB_REAL_TIME_LIST   = LocalUri.RHQ+LocalUri.METRICS+LocalUri.JOB+LocalUri.REAL_TIME+LocalUri.LIST;
 	public static final String RHQ_METRICS_JOB_REAL_TIME_GET    = LocalUri.RHQ+LocalUri.METRICS+LocalUri.JOB+LocalUri.REAL_TIME+LocalUri.GET;
-	public static final String RHQ_METRICS_JOB_REAL_TIME_ADD    = LocalUri.RHQ+LocalUri.METRICS+LocalUri.JOB+LocalUri.REAL_TIME+LocalUri.ADD;
-	public static final String RHQ_METRICS_JOB_REAL_TIME_DELETE = LocalUri.RHQ+LocalUri.METRICS+LocalUri.JOB+LocalUri.REAL_TIME+LocalUri.DELETE;
+	//public static final String RHQ_METRICS_JOB_REAL_TIME_ADD    = LocalUri.RHQ+LocalUri.METRICS+LocalUri.JOB+LocalUri.REAL_TIME+LocalUri.ADD;
+	//public static final String RHQ_METRICS_JOB_REAL_TIME_DELETE = LocalUri.RHQ+LocalUri.METRICS+LocalUri.JOB+LocalUri.REAL_TIME+LocalUri.DELETE;
 }

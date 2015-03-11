@@ -50,7 +50,8 @@ public class AddEditRealTimeMetricsJob extends VerticalLayout{
     private CustomTextField metricValueLowest = new CustomTextField("Value Lowest", true, "'Value Lowest' is a mandatory field");
     private CustomTextField metricValueHighest = new CustomTextField("Value Highest", true, "'Value Highest' is a mandatory field");
     private CustomTextField metricDataCount = new CustomTextField("Metric Data Count",true, "'Metric Data Count' is a mandatory field");
-    private CustomTextField metricDataLimit = new CustomTextField("Metric Data Limit",true, "'Metric Data Limit' is a mandatory field"); 
+    private CustomTextField metricLimit = new CustomTextField("Metric Limit",true, "'Metric Limit' is a mandatory field");
+    private CustomTextField metricDataLimit = new CustomTextField("Metric Data Limit",true, "'Metric Data Limit' is a mandatory field");    
     private CustomTextField metricTimeLimit = new CustomTextField("Metric Time Limit(sec)",true, "'Metric Time Limit' is a mandatory field"); 
     private CustomCheckBox validateResult = new CustomCheckBox("Verify","Verify it on hawkular-metrics server");
 
@@ -94,7 +95,8 @@ public class AddEditRealTimeMetricsJob extends VerticalLayout{
         metricValueHighest.setTabIndex(12);
         metricDataCount.setTabIndex(13);
         metricTimeLimit.setTabIndex(14);
-        metricDataLimit.setTabIndex(15);
+        metricLimit.setTabIndex(15);
+        metricDataLimit.setTabIndex(16);
         
 
         name.setValue("Test Job");
@@ -111,10 +113,11 @@ public class AddEditRealTimeMetricsJob extends VerticalLayout{
         
         metricDataCount.setValue("1");
         metricTimeLimit.setValue("60");
+        metricLimit.setValue("-1");
         metricDataLimit.setValue("1000");
 
         leftLayout.addComponents(name, cronExpression, repeatCount, repeatInterval, fromDate, toDate, enabled, validateResult);
-        rightLayout.addComponents(rhqServerUrl, tenantId, metricName, metricValueLowest, metricValueHighest, metricDataCount, metricTimeLimit, metricDataLimit);
+        rightLayout.addComponents(rhqServerUrl, tenantId, metricName, metricValueLowest, metricValueHighest, metricDataCount, metricTimeLimit, metricLimit, metricDataLimit);
 
 
         //Buttons
@@ -159,6 +162,7 @@ public class AddEditRealTimeMetricsJob extends VerticalLayout{
             metricValueHighest.validate();
             metricTimeLimit.validate();
             metricDataCount.validate();
+            metricLimit.validate();
 
             return true;
         }catch(Exception ex){
@@ -187,6 +191,7 @@ public class AddEditRealTimeMetricsJob extends VerticalLayout{
         jobData.setMetricDataLimit(Long.valueOf(metricDataLimit.getValue()));
         jobData.setMetricTimeLimit(Long.valueOf(metricTimeLimit.getValue()));
         jobData.setValidateResult(validateResult.getValue());
+        jobData.setMetricLimit(Long.valueOf(metricLimit.getValue()));
 
         jobDetail.setMetricsJobData(jobData);
 

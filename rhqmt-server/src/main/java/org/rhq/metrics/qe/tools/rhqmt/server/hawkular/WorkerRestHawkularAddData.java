@@ -1,11 +1,13 @@
 package org.rhq.metrics.qe.tools.rhqmt.server.hawkular;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.hawkular.metrics.api.jaxrs.AvailabilityDataParams;
 import org.hawkular.metrics.api.jaxrs.NumericDataParams;
+import org.rhq.metrics.qe.tools.rhqmt.server.Metrics;
 import org.rhq.metrics.qe.tools.rhqmt.server.database.entities.MetricsJobData;
 
+import com.codahale.metrics.Timer;
 import com.codahale.metrics.annotation.Timed;
 /**
  * @author jkandasa@redhat.com (Jeeva Kandasamy)
@@ -15,27 +17,30 @@ public class WorkerRestHawkularAddData extends WorkerRestPostHawkularMetrics imp
     private MetricsJobData jobData;
     private InputMetricParams.METRICS_TYPE type;
     private String tenantId;
-    private ArrayList<NumericDataParams> numericDataParams;
-    private ArrayList<AvailabilityDataParams> availabilityDataParams;
+    private List<NumericDataParams> numericDataParams;
+    private List<AvailabilityDataParams> availabilityDataParams;
     
     @SuppressWarnings("unchecked")
     public WorkerRestHawkularAddData(String hawkularUrl, String restPostUrl,
-            ArrayList<?> dataParams, InputMetricParams.METRICS_TYPE type, 
+            List<?> dataParams, InputMetricParams.METRICS_TYPE type, 
             String tenantId, MetricsJobData jobData) {
         super(hawkularUrl, restPostUrl);
         this.jobData = jobData;
         this.type = type;
         this.tenantId = tenantId;
         if(type.equals(InputMetricParams.METRICS_TYPE.NUMERIC)){
-            this.numericDataParams = (ArrayList<NumericDataParams>) dataParams;
+            this.numericDataParams = (List<NumericDataParams>) dataParams;
         }else if(type.equals(InputMetricParams.METRICS_TYPE.AVAILABILITY)){
-            this.availabilityDataParams = (ArrayList<AvailabilityDataParams>) dataParams;
+            this.availabilityDataParams = (List<AvailabilityDataParams>) dataParams;
         }
     }
     
     @Timed
     @Override
     public void run() {
+        Metrics.getMetrics().meter(Metrics.REQUESTS_HAWKULAR_ADD_DATA+"-"+tenantId).mark(); //Mark it in the registry
+        final Timer timer = Metrics.getMetrics().timer(Metrics.TIMER_HAWKULAR_POST_DATA+"-"+tenantId); //Mark it in the registry
+        final Timer.Context context = timer.time();
         try {
             if(type.equals(InputMetricParams.METRICS_TYPE.NUMERIC)){
                 this.postHawkularData(numericDataParams);
@@ -59,6 +64,8 @@ public class WorkerRestHawkularAddData extends WorkerRestPostHawkularMetrics imp
 
         } catch (Exception ex) {
             _logger.error("Exception, ", ex);
+        }finally{
+            context.stop();
         }
     }
 

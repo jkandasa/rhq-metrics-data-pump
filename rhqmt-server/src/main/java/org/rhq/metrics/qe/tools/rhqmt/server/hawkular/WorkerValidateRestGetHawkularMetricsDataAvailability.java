@@ -1,6 +1,6 @@
 package org.rhq.metrics.qe.tools.rhqmt.server.hawkular;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.hawkular.metrics.api.jaxrs.AvailabilityDataParams;
 import org.rhq.metrics.qe.tools.rhqmt.server.database.entities.JobStatusMessage;
@@ -15,10 +15,10 @@ import com.fasterxml.jackson.databind.ObjectWriter;
  */
 public class WorkerValidateRestGetHawkularMetricsDataAvailability extends WorkerRestGetHawkularMetrics implements Runnable{
 
-    private ArrayList<AvailabilityDataParams> availabilityDataParams;
+    private List<AvailabilityDataParams> availabilityDataParams;
     private String tenantId;
     public WorkerValidateRestGetHawkularMetricsDataAvailability(Long jobId, String hawkularUrl,
-            String tenantId, ArrayList<AvailabilityDataParams> availabilityDataParams) {
+            String tenantId, List<AvailabilityDataParams> availabilityDataParams) {
         super(jobId, hawkularUrl);
         this.availabilityDataParams = availabilityDataParams;
         this.tenantId = tenantId;

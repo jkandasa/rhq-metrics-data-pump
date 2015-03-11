@@ -21,11 +21,8 @@
 			<version>9.1-901-1.jdbc4</version>
 		</dependency>
 
-<!-- 		<dependency>
-			<groupId>org.jdbi</groupId>
-			<artifactId>jdbi</artifactId>
-			<version>${jdbi.version}</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.jdbi</groupId> <artifactId>jdbi</artifactId> 
+			<version>${jdbi.version}</version> </dependency> -->
 
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -40,18 +37,11 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.dropwizard</groupId>
-			<artifactId>dropwizard-db</artifactId>
-			<version>${dropwizard.version}</version>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>3.1.1</version>
 		</dependency>
-
-		<dependency>
-			<groupId>io.dropwizard</groupId>
-			<artifactId>dropwizard-jdbi</artifactId>
-			<version>${dropwizard.version}</version>
-		</dependency>
-
-
+		
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-client</artifactId>
@@ -80,6 +70,10 @@
 				<exclusion>
 					<groupId>com.wordnik</groupId>
 					<artifactId>swagger-core_2.10</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.antlr</groupId>
+					<artifactId>antlr4-runtime</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>

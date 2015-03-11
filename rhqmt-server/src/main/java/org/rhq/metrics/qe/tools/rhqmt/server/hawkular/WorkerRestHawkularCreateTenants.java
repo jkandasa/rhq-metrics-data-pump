@@ -1,10 +1,12 @@
 package org.rhq.metrics.qe.tools.rhqmt.server.hawkular;
 
 import org.hawkular.metrics.api.jaxrs.TenantParams;
+import org.rhq.metrics.qe.tools.rhqmt.server.Metrics;
 import org.rhq.metrics.qe.tools.rhqmt.server.database.entities.JobStatusMessage;
 import org.rhq.metrics.qe.tools.rhqmt.server.database.entities.MetricsJobData;
 import org.rhq.metrics.qe.tools.rhqmt.server.database.services.JobStatusMessageService;
 
+import com.codahale.metrics.Timer;
 import com.codahale.metrics.annotation.Timed;
 /**
  * @author jkandasa@redhat.com (Jeeva Kandasamy)
@@ -23,6 +25,8 @@ public class WorkerRestHawkularCreateTenants extends WorkerRestPostHawkularMetri
     @Timed
     @Override
     public void run() {
+        final Timer timer = Metrics.getMetrics().timer(Metrics.TIMER_HAWKULAR_TENANT_CREATION); //Mark it in the registry
+        final Timer.Context context = timer.time();
         try {
             this.postHawkularData(this.tenantParams);
         } catch (Exception ex) {
@@ -34,6 +38,8 @@ public class WorkerRestHawkularCreateTenants extends WorkerRestPostHawkularMetri
                             "Tenant Creation failed, Tenant Id: "+tenantParams.getId()+
                             ", Error code: "+ex.getMessage()));
             _logger.warn("Tenant creation failed, ", ex);
+        }finally{
+            context.stop(); //Stop the timer
         }
     }
 

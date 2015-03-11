@@ -9,8 +9,15 @@ database:
   driverClass: org.postgresql.Driver
   username: rhqmtadmin
   password: rhqmtadmin
-  url: jdbc:postgresql://localhost:5432/rhqmtserverdb?autoReconnect=true
-  cleandb: false
+  url: jdbc:postgresql://localhost:5432/rhqmtserverdbtmp?autoReconnect=true
+  cleandb: true
+
+#Thread Pool details
+threadpool:
+  corePoolSize: 10
+  maxPoolSize: 50
+  keepAliveTime: 5000
+  waitingQueueCapacity: 20000
 
 # use the simple server factory if you only want to run on a single port
 #server:

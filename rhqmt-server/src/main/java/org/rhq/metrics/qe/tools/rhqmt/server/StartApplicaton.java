@@ -1,5 +1,6 @@
 package org.rhq.metrics.qe.tools.rhqmt.server;
 
+
 import org.rhq.metrics.qe.tools.rhqmt.server.database.PostgresSqlSessionFactory;
 import org.rhq.metrics.qe.tools.rhqmt.server.health.TemplateHealthCheck;
 import org.rhq.metrics.qe.tools.rhqmt.server.resources.RHQMetricsRealTimeJob;
@@ -7,6 +8,9 @@ import org.rhq.metrics.qe.tools.rhqmt.server.resources.RHQMetricsResource;
 import org.rhq.metrics.qe.tools.rhqmt.server.resources.RHQMetricsTemplate;
 import org.rhq.metrics.qe.tools.rhqmt.server.resources.ServerData;
 import org.rhq.metrics.qe.tools.rhqmt.server.scheduler.ManageScheduler;
+
+import com.codahale.metrics.ConsoleReporter;
+import com.codahale.metrics.JmxReporter;
 
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
@@ -43,6 +47,9 @@ public class StartApplicaton extends Application<ServerConfiguration>{
 	public void run(ServerConfiguration configuration, Environment environment) {
 	    PostgresSqlSessionFactory.setConfiguration(configuration.getDatabaseConfiguration());
 	    
+	    ThreadPool.load(configuration.getThreadPoolConfiguration());
+
+	    
 	    startServices();
 	    
 	    //Add resources
@@ -53,7 +60,18 @@ public class StartApplicaton extends Application<ServerConfiguration>{
 
 		final TemplateHealthCheck healthCheck = new TemplateHealthCheck(configuration.getTemplate());
 		environment.healthChecks().register("template", healthCheck);
-
+		
+		
+		/*final ConsoleReporter consoleReporter = ConsoleReporter.forRegistry(Metrics.getMetrics())
+		        .convertRatesTo(TimeUnit.SECONDS)
+                .convertDurationsTo(TimeUnit.MILLISECONDS)
+                .build();
+		consoleReporter.start(1, TimeUnit.MINUTES);
+		*/
+		final JmxReporter reporter = JmxReporter.forRegistry(Metrics.getMetrics()).build();
+		reporter.start();
+		
+		
 		environment.jersey().register(pushMetrics);
 		environment.jersey().register(rhqMetricsTemplate);
 		environment.jersey().register(rhqMetricsRealTimeJob);

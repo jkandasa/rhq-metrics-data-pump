@@ -14,6 +14,7 @@
 		<result property="metricValueHighest" column="metric_value_highest" />
 		<result property="metricDataLimit" column="metric_data_limit" />
 		<result property="metricTimeLimit" column="metric_time_limit" />
+		<result property="metricLimit" column="metric_limit" />
 		<result property="validateResult" column="validate_result" />	
 		<result property="initialSetupDone" column="initial_setup_done" />		
 	</resultMap>
@@ -36,8 +37,8 @@
 	
 	<insert id="add" parameterType="MetricsJobData">
 		INSERT INTO metrics_job_data (job_id, target_server, tenant_id, metric_name_id, metric_interval, metric_value_lowest, 
-		metric_value_highest, metric_data_limit, metric_data_count, metric_time_limit, validate_result) VALUES (#{jobId},#{targetServer},
-		#{tenantId},#{metricNameId},#{metricInterval},#{metricValueLowest},#{metricValueHighest},#{metricDataLimit},#{metricDataCount},
+		metric_value_highest, metric_limit, metric_data_limit, metric_data_count, metric_time_limit, validate_result) VALUES (#{jobId},#{targetServer},
+		#{tenantId},#{metricNameId},#{metricInterval},#{metricValueLowest},#{metricValueHighest},#{metricLimit},#{metricDataLimit},#{metricDataCount},
 		#{metricTimeLimit},#{validateResult})
 	</insert>
 	
@@ -62,6 +63,7 @@
 			<if test="metricValueLowest != null">metric_value_lowest=#{metricValueLowest},</if>
 			<if test="metricValueHighest != null">metric_value_highest=#{metricValueHighest},</if>
 			<if test="metricDataLimit != null">metric_data_limit=#{metricDataLimit},</if>
+			<if test="metricLimit != null">metric_limit=#{metricLimit},</if>
 			<if test="metricTimeLimit != null">metric_time_limit=#{metricTimeLimit},</if>
 			<if test="validateResult != null">validate_result=#{validateResult},</if>
 			<if test="jobId != null">job_id = #{jobId},</if>

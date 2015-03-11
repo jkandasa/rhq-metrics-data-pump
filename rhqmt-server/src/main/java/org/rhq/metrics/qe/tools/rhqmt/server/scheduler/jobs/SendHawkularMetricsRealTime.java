@@ -2,6 +2,7 @@ package org.rhq.metrics.qe.tools.rhqmt.server.scheduler.jobs;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
@@ -14,6 +15,7 @@ import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.rhq.metrics.qe.tools.rhqmt.server.ThreadPool;
 import org.rhq.metrics.qe.tools.rhqmt.server.database.entities.MetricsJobData;
 import org.rhq.metrics.qe.tools.rhqmt.server.database.services.MetricsJobDataService;
 import org.rhq.metrics.qe.tools.rhqmt.server.hawkular.InputMetricParams;
@@ -41,22 +43,21 @@ public class SendHawkularMetricsRealTime implements Job{
                     for(int tenantNo = tenantParams.getMin(); tenantNo <= tenantParams.getMax(); tenantNo++){
                         TenantParams tenant = new TenantParams();
                         tenant.setId(tenantParams.getName()+tenantNo);
-                        Thread thread = new Thread(new WorkerRestHawkularCreateTenants(
+                        
+                        ThreadPool.getExecutorService().execute(new WorkerRestHawkularCreateTenants(
                                 jobData.getTargetServer(), 
                                 HawkularMetricsUri.TENANTS,
                                 tenant,
                                 jobData));
-                        thread.start();
                     }
                 }else{
                     TenantParams tenant = new TenantParams();
                     tenant.setId(tenantParams.getName());
-                    Thread thread = new Thread(new WorkerRestHawkularCreateTenants(
+                    ThreadPool.getExecutorService().execute(new WorkerRestHawkularCreateTenants(
                             jobData.getTargetServer(), 
                             HawkularMetricsUri.TENANTS,
                             tenant,
                             jobData));
-                    thread.start();
                 }
             }
 
@@ -103,32 +104,102 @@ public class SendHawkularMetricsRealTime implements Job{
             }
         }
 
+        if(jobData.getMetricLimit() > 0){
+            //Process for Numeric Metrics
+            if(jobData.getMetricLimit() < numericDataParamsList.size()){
+                int repeatCount =  numericDataParamsList.size()/jobData.getMetricLimit().intValue();
+                int balanceCount = numericDataParamsList.size()%jobData.getMetricLimit().intValue();
+                for(int currentCount=0;currentCount<repeatCount;currentCount++){
+                    postMetricsData(jobData, 
+                            numericDataParamsList.
+                            subList(currentCount*jobData.getMetricLimit().intValue(), 
+                                    (currentCount+1)*jobData.getMetricLimit().intValue()), 
+                             null,
+                             tenantName);
+                }
+
+                if(balanceCount > 0){
+                    postMetricsData(jobData, 
+                            numericDataParamsList.
+                            subList(repeatCount*jobData.getMetricLimit().intValue(), 
+                                    numericDataParamsList.size()), 
+                            null,
+                            tenantName);
+                }
+
+            }else{
+                postMetricsData(jobData, 
+                        numericDataParamsList, 
+                        null,
+                        tenantName);
+            }
+            //Process for availability metrics
+            if(jobData.getMetricLimit() < availabilityDataParamsList.size()){
+                int repeatCount =  availabilityDataParamsList.size()/jobData.getMetricLimit().intValue();
+                int balanceCount = availabilityDataParamsList.size()%jobData.getMetricLimit().intValue();
+
+                for(int currentCount=0;currentCount<repeatCount;currentCount++){
+                    postMetricsData(jobData, 
+                            null,
+                            availabilityDataParamsList.
+                            subList(currentCount*jobData.getMetricLimit().intValue(), 
+                                    (currentCount+1)*jobData.getMetricLimit().intValue()), 
+                            tenantName);
+                }
+
+                if(balanceCount > 0){
+                    postMetricsData(jobData,
+                            null,
+                            availabilityDataParamsList.
+                            subList(repeatCount*jobData.getMetricLimit().intValue(), 
+                                    availabilityDataParamsList.size()), 
+                            tenantName);
+                }
+
+
+            }else{
+                postMetricsData(jobData, 
+                        null, 
+                        availabilityDataParamsList,
+                        tenantName);
+            }
+        }else{
+            postMetricsData(jobData, 
+                    numericDataParamsList, 
+                    availabilityDataParamsList,
+                    tenantName);
+        }               
+    }
+
+    private void postMetricsData(MetricsJobData jobData, 
+            List<NumericDataParams> numericDataParamsList, 
+            List<AvailabilityDataParams> availabilityDataParamsList,
+            String tenantName){
         //Process Tenant rest post
-        if(availabilityDataParamsList.size() > 0){
-            Thread thread = new Thread(new WorkerRestHawkularAddData(
+        if(availabilityDataParamsList != null && availabilityDataParamsList.size() > 0){
+            ThreadPool.getExecutorService().execute(new WorkerRestHawkularAddData(
                     jobData.getTargetServer(), 
                     new HawkularMetricsUri().getUri(tenantName, HawkularMetricsUri.METRICS_DATA_AVAILABILITY),
                     availabilityDataParamsList,
                     InputMetricParams.METRICS_TYPE.AVAILABILITY,
                     tenantName,
                     jobData));
-            thread.start();
         }
 
-        if(numericDataParamsList.size() > 0){
-            Thread thread = new Thread(new WorkerRestHawkularAddData(
+        if(numericDataParamsList != null && numericDataParamsList.size() > 0){
+            ThreadPool.getExecutorService().execute(new WorkerRestHawkularAddData(
                     jobData.getTargetServer(), 
                     new HawkularMetricsUri().getUri(tenantName, HawkularMetricsUri.METRICS_DATA_NUMERIC),
                     numericDataParamsList,
                     InputMetricParams.METRICS_TYPE.NUMERIC,
                     tenantName,
                     jobData));
-            thread.start();
-        }        
+        }
     }
 
     private void processMetric(String tenantId, String metricName, InputMetricParams metricParams, 
-            MetricsJobData jobData, long referenceTime, long timeIncrement, ArrayList<NumericDataParams> numericDataParamsList,
+            MetricsJobData jobData, long referenceTime, long timeIncrement,
+            ArrayList<NumericDataParams> numericDataParamsList,
             ArrayList<AvailabilityDataParams> availabilityDataParamsList, Random randomMetric){
         if(metricParams.getMetricsType().equals(InputMetricParams.METRICS_TYPE.AVAILABILITY)){
             ArrayList<AvailabilityDataPoint> availabilityDataPoints = new ArrayList<>();
@@ -144,11 +215,38 @@ public class SendHawkularMetricsRealTime implements Job{
                 //while verifying, hawkular returns in descending order
                 availabilityDataPoints.add(0, availabilityDataPoint); 
             }
-            AvailabilityDataParams availabilityDataParams = new AvailabilityDataParams();
-            availabilityDataParams.setName(metricName);
-            availabilityDataParams.setData(availabilityDataPoints);
-            availabilityDataParams.setTenantId(tenantId);
-            availabilityDataParamsList.add(availabilityDataParams);
+            
+            AvailabilityDataParams availabilityDataParams = null;
+            
+            if(jobData.getMetricDataLimit() < jobData.getMetricDataCount()){
+                int repeatCount =  jobData.getMetricDataCount().intValue()/jobData.getMetricDataLimit().intValue();
+                int balanceCount = jobData.getMetricDataCount().intValue()%jobData.getMetricDataLimit().intValue();
+                
+                for(int currentCount=0;currentCount<repeatCount;currentCount++){
+                    availabilityDataParams = new AvailabilityDataParams();
+                    availabilityDataParams.setName(metricName);
+                    availabilityDataParams.setData(availabilityDataPoints
+                            .subList(currentCount*jobData.getMetricDataLimit().intValue(), 
+                            (currentCount+1)*jobData.getMetricDataLimit().intValue()));
+                    availabilityDataParams.setTenantId(tenantId);
+                    availabilityDataParamsList.add(availabilityDataParams);
+                }
+                if(balanceCount > 0){
+                    availabilityDataParams = new AvailabilityDataParams();
+                    availabilityDataParams.setName(metricName);
+                    availabilityDataParams.setData(availabilityDataPoints
+                            .subList(repeatCount*jobData.getMetricDataLimit().intValue(), 
+                                    availabilityDataPoints.size()));
+                    availabilityDataParams.setTenantId(tenantId);
+                    availabilityDataParamsList.add(availabilityDataParams);
+                }
+            }else{
+                availabilityDataParams = new AvailabilityDataParams();
+                availabilityDataParams.setName(metricName);
+                availabilityDataParams.setData(availabilityDataPoints);
+                availabilityDataParams.setTenantId(tenantId);
+                availabilityDataParamsList.add(availabilityDataParams);
+            }
         }else if(metricParams.getMetricsType().equals(InputMetricParams.METRICS_TYPE.NUMERIC)){                
             ArrayList<NumericDataPoint> numericDataPoints = new ArrayList<>();
             for(int i=0; i<jobData.getMetricDataCount();i++){
@@ -158,11 +256,37 @@ public class SendHawkularMetricsRealTime implements Job{
                         (randomMetric.nextDouble()*(jobData.getMetricValueHighest()
                                 -jobData.getMetricValueLowest()))+jobData.getMetricValueLowest()));
             }
-            NumericDataParams dataParams = new NumericDataParams();
-            dataParams.setName(metricName);
-            dataParams.setData(numericDataPoints);
-            dataParams.setTenantId(tenantId);
-            numericDataParamsList.add(dataParams);            
+            NumericDataParams dataParams = null;
+            
+            if(jobData.getMetricDataLimit() < jobData.getMetricDataCount()){
+                int repeatCount =  jobData.getMetricDataCount().intValue()/jobData.getMetricDataLimit().intValue();
+                int balanceCount = jobData.getMetricDataCount().intValue()%jobData.getMetricDataLimit().intValue();
+                
+                for(int currentCount=0;currentCount<repeatCount;currentCount++){
+                    dataParams = new NumericDataParams();
+                    dataParams.setName(metricName);
+                    dataParams.setData(numericDataPoints
+                            .subList(currentCount*jobData.getMetricDataLimit().intValue(), 
+                            (currentCount+1)*jobData.getMetricDataLimit().intValue()));
+                    dataParams.setTenantId(tenantId);
+                    numericDataParamsList.add(dataParams);
+                }
+                if(balanceCount > 0){
+                    dataParams = new NumericDataParams();
+                    dataParams.setName(metricName);
+                    dataParams.setData(numericDataPoints
+                            .subList(repeatCount*jobData.getMetricDataLimit().intValue(), 
+                                    numericDataPoints.size()));
+                    dataParams.setTenantId(tenantId);
+                    numericDataParamsList.add(dataParams);
+                }
+            }else{
+                dataParams = new NumericDataParams();
+                dataParams.setName(metricName);
+                dataParams.setData(numericDataPoints);
+                dataParams.setTenantId(tenantId);
+                numericDataParamsList.add(dataParams);
+            }
         }
     }
 
@@ -170,8 +294,10 @@ public class SendHawkularMetricsRealTime implements Job{
     public void execute(JobExecutionContext jonExecutionContext) throws JobExecutionException {
         JobDataMap jobDataMap = (JobDataMap)jonExecutionContext.getJobDetail().getJobDataMap();
         try {
-            _logger.debug("Id:"+jobDataMap.getLong(ScheduleDetail.JOB_ID)+", Type:"+jobDataMap.getString(ScheduleDetail.JOB_TYPE)+", Data:"+jobDataMap.get(ScheduleDetail.JOB_DATA));
-            this.sendMetrics(jobDataMap.getLong(ScheduleDetail.JOB_ID), (MetricsJobData) jobDataMap.get(ScheduleDetail.JOB_DATA));
+            _logger.debug("Id:"+jobDataMap.getLong(ScheduleDetail.JOB_ID)+", Type:"
+        +jobDataMap.getString(ScheduleDetail.JOB_TYPE)+", Data:"+jobDataMap.get(ScheduleDetail.JOB_DATA));
+            this.sendMetrics(jobDataMap.getLong(ScheduleDetail.JOB_ID), 
+                    (MetricsJobData) jobDataMap.get(ScheduleDetail.JOB_DATA));
         } catch (Exception ex) {
             _logger.error("Exception, ", ex);
         }

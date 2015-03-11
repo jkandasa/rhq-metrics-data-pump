@@ -1,6 +1,6 @@
 package org.rhq.metrics.qe.tools.rhqmt.server.hawkular;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.hawkular.metrics.api.jaxrs.NumericDataParams;
 import org.rhq.metrics.qe.tools.rhqmt.server.database.entities.JobStatusMessage;
@@ -15,10 +15,10 @@ import com.fasterxml.jackson.databind.ObjectWriter;
  */
 public class WorkerValidateRestGetHawkularMetricsDataNumeric extends WorkerRestGetHawkularMetrics implements Runnable{
 
-    private ArrayList<NumericDataParams> numericDataParams;
+    private List<NumericDataParams> numericDataParams;
     private String tenantId;
     public WorkerValidateRestGetHawkularMetricsDataNumeric(Long jobId, String hawkularUrl,
-            String tenantId, ArrayList<NumericDataParams> numericDataParams) {
+            String tenantId, List<NumericDataParams> numericDataParams) {
         super(jobId, hawkularUrl);
         this.numericDataParams = numericDataParams;
         this.tenantId = tenantId;

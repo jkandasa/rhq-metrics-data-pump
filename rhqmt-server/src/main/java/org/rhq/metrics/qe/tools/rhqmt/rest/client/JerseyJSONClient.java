@@ -81,6 +81,13 @@ public class JerseyJSONClient {
 		return response.getEntity(dataClass);
 	}
 	
+	public ClientResponse delete(String uri, Object data) throws Exception{
+        client = Client.create(); 
+        webResource = client.resource(serverUrl+uri);
+        response = webResource.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).delete(ClientResponse.class, data);
+        this.checkStatus(response);
+        return response;
+    }
 	
 	public String getServerUrl() {
 		return serverUrl;

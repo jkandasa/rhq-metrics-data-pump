@@ -1,6 +1,7 @@
 package org.rhq.metrics.qe.tools.rhqmt.server.resources;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -21,7 +22,6 @@ import com.codahale.metrics.annotation.Timed;
 public class RHQMetricsRealTimeJob {
 	
     @GET
-    @Path(LocalUri.LIST)
     @Timed
     public Object[] getList(){
         return new JobDetailService().getAllRealTimeMetrics().toArray();
@@ -36,7 +36,6 @@ public class RHQMetricsRealTimeJob {
     }
     
     @POST
-    @Path(LocalUri.ADD)
     @Timed
     public void add(JobDetail jobDetail){
         jobDetail.setJobType(JobDetail.JOB_TYPE.REAL_TIME_METRICS.toString());
@@ -44,8 +43,7 @@ public class RHQMetricsRealTimeJob {
         new JobDetailService().add(jobDetail);
     }    
     
-    @POST
-    @Path(LocalUri.DELETE)
+    @DELETE
     @Timed
     public void delete(JobDetail jobDetail){
         new JobDetailService().delete(jobDetail);
