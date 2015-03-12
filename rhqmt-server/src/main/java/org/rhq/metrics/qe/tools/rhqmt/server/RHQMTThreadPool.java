@@ -3,7 +3,9 @@ package org.rhq.metrics.qe.tools.rhqmt.server;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
+/**
+ * @author jkandasa@redhat.com (Jeeva Kandasamy)
+ */
 public class RHQMTThreadPool extends ThreadPoolExecutor{
 
     public RHQMTThreadPool(int corePoolSize, int maximumPoolSize,

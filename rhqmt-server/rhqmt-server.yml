@@ -19,6 +19,14 @@ threadpool:
   keepAliveTime: 5000
   waitingQueueCapacity: 20000
 
+#Graphite Server details
+graphite:
+  enabled: true
+  hostname: localhost
+  port: 2003
+  sendEverySeconds: 60
+  baseReference: HAWKULAR-MG01_
+
 # use the simple server factory if you only want to run on a single port
 #server:
 #  type: simple

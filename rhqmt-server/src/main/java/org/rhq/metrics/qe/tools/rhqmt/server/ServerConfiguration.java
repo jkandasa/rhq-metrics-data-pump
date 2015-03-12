@@ -27,6 +27,11 @@ public class ServerConfiguration extends Configuration{
     @NotNull
     @JsonProperty("threadpool")
     private ThreadPoolConfiguration threadPoolConfiguration;
+	
+	@Valid
+    @NotNull
+    @JsonProperty("graphite")
+	private GraphiteReporterConfiguration graphiteReporterConfiguration;
     
     @NotEmpty
     @JsonProperty
@@ -46,6 +51,10 @@ public class ServerConfiguration extends Configuration{
 
     public ThreadPoolConfiguration getThreadPoolConfiguration() {
         return threadPoolConfiguration;
+    }
+
+    public GraphiteReporterConfiguration getGraphiteReporterConfiguration() {
+        return graphiteReporterConfiguration;
     }
     
     

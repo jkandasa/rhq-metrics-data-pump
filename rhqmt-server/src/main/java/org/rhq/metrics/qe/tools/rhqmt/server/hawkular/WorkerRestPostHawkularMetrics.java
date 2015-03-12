@@ -23,18 +23,19 @@ public class WorkerRestPostHawkularMetrics{
 
     
     public void postHawkularData(Object data) throws Exception{
-        Metrics.getMetrics().meter(Metrics.REQUESTS_HAWKULAR_POST_DATA).mark(); //Mark it in the registry
-        final Timer timer = Metrics.getMetrics().timer(Metrics.TIMER_HAWKULAR_POST_DATA); //Mark it in the registry
+        //Metrics.getMetrics().meter(Metrics.COUNTER_HAWKULAR).mark(); //Mark it in the registry
+        final Timer timer = Metrics.getMetrics().timer(Metrics.TIMER_REQUESTS_HAWKULAR_POST_DATA); //Mark it in the registry
         final Timer.Context context = timer.time();
         try{
             JerseyJSONClient jsonClient = null;
             if(hawkularUrl != null){
                 jsonClient = new JerseyJSONClient(hawkularUrl);
-                ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-                String json = ow.writeValueAsString(data);
-                _logger.debug("Hawkular: "+ hawkularUrl+ ", restUrl: "+restPostUrl);
-                _logger.debug("Hawkular Object JSON String: "+json );
                 
+                if(_logger.isDebugEnabled()){
+                    ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+                    _logger.debug("Hawkular: "+ hawkularUrl+ ", restUrl: "+restPostUrl);
+                    _logger.debug("Hawkular Object JSON String: "+ow.writeValueAsString(data) );
+                }
                 ClientResponse clientResponse =  jsonClient.post(restPostUrl, data);
                 _logger.debug("Status: "+ clientResponse.getStatus());
             }

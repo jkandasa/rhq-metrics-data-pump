@@ -38,8 +38,8 @@ public class WorkerRestHawkularAddData extends WorkerRestPostHawkularMetrics imp
     @Timed
     @Override
     public void run() {
-        Metrics.getMetrics().meter(Metrics.REQUESTS_HAWKULAR_ADD_DATA+"-"+tenantId).mark(); //Mark it in the registry
-        final Timer timer = Metrics.getMetrics().timer(Metrics.TIMER_HAWKULAR_POST_DATA+"-"+tenantId); //Mark it in the registry
+        //Metrics.getMetrics().meter(Metrics.COUNTER_REQUESTS_HAWKULAR_POST_DATA+"-"+tenantId).mark(); //Mark it in the registry
+        final Timer timer = Metrics.getMetrics().timer(Metrics.TIMER_REQUESTS_HAWKULAR_POST_DATA+":"+tenantId); //Mark it in the registry
         final Timer.Context context = timer.time();
         try {
             if(type.equals(InputMetricParams.METRICS_TYPE.NUMERIC)){

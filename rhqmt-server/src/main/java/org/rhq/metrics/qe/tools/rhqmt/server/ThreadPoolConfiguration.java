@@ -1,7 +1,9 @@
 package org.rhq.metrics.qe.tools.rhqmt.server;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * @author jkandasa@redhat.com (Jeeva Kandasamy)
+ */
 public class ThreadPoolConfiguration {   
    
     @JsonProperty
