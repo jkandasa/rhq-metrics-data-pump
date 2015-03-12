@@ -39,8 +39,8 @@ public class WorkerRestHawkularAddData extends WorkerRestPostHawkularMetrics imp
     @Override
     public void run() {
         //Metrics.getMetrics().meter(Metrics.COUNTER_REQUESTS_HAWKULAR_POST_DATA+"-"+tenantId).mark(); //Mark it in the registry
-        final Timer timer = Metrics.getMetrics().timer(Metrics.TIMER_REQUESTS_HAWKULAR_POST_DATA+":"+tenantId); //Mark it in the registry
-        final Timer.Context context = timer.time();
+        //final Timer timer = Metrics.getMetrics().timer(Metrics.TIMER_REQUESTS_HAWKULAR_POST_DATA+":"+tenantId); //Mark it in the registry
+       // final Timer.Context context = timer.time();
         try {
             if(type.equals(InputMetricParams.METRICS_TYPE.NUMERIC)){
                 this.postHawkularData(numericDataParams);
@@ -64,9 +64,9 @@ public class WorkerRestHawkularAddData extends WorkerRestPostHawkularMetrics imp
 
         } catch (Exception ex) {
             _logger.error("Exception, ", ex);
-        }finally{
+        }/*finally{
             context.stop();
-        }
+        }*/
     }
 
 }
